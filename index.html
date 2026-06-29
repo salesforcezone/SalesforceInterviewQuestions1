@@ -1,0 +1,2848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Salesforce Interview Questions</title>
+    <style>
+        /* ───────────── reset & base ───────────── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #f4f7fc;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1200px;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 28px 30px 36px;
+            transition: all 0.2s;
+        }
+
+        /* ───────────── header ───────────── */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .header-left .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0a2540;
+            letter-spacing: -0.3px;
+        }
+
+        .header-left .badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: #dbeafe;
+            color: #1a56db;
+            padding: 4px 14px;
+            border-radius: 40px;
+        }
+
+        .progress {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #4b5563;
+            background: #f1f5f9;
+            padding: 4px 18px;
+            border-radius: 40px;
+            white-space: nowrap;
+        }
+
+        /* ───────────── company pills (wrapped) ───────────── */
+        .company-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 8px 0 16px 0;
+            margin-bottom: 12px;
+        }
+
+        .company-pill {
+            flex: 0 0 auto;
+            padding: 8px 18px;
+            border-radius: 40px;
+            border: 1.5px solid #e2e8f0;
+            background: #f8fafc;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #1e293b;
+            cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+
+        .company-pill:hover {
+            background: #eef2f6;
+            border-color: #94a3b8;
+        }
+
+        .company-pill.active {
+            background: #0a2540;
+            border-color: #0a2540;
+            color: white;
+            box-shadow: 0 2px 8px rgba(10, 37, 64, 0.2);
+        }
+
+        /* ───────────── navigation arrows ───────────── */
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: #ffffff;
+            border: 1.5px solid #d1d9e6;
+            border-radius: 60px;
+            padding: 8px 24px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1e293b;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #f8fafc;
+            border-color: #94a3b8;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .nav-btn.primary {
+            background: #0a2540;
+            border-color: #0a2540;
+            color: white;
+        }
+
+        .nav-btn.primary:hover:not(:disabled) {
+            background: #1a3a5a;
+            border-color: #1a3a5a;
+        }
+
+        .nav-info {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #4b5563;
+        }
+
+        /* ───────────── candidate cards ───────────── */
+        .candidates-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            max-height: 560px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .candidates-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .candidates-grid::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        .candidates-grid::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .candidate-card {
+            background: #f9fbfd;
+            border-radius: 18px;
+            border: 1px solid #e9edf3;
+            padding: 20px 24px 24px;
+            transition: all 0.15s;
+        }
+
+        .candidate-card:hover {
+            border-color: #cbd5e1;
+            background: #f8fafc;
+        }
+
+        .candidate-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .candidate-title .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #0a2540;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .candidate-title h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0a2540;
+            letter-spacing: -0.2px;
+        }
+
+        .candidate-title .round-tag {
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: #e2e8f0;
+            color: #334155;
+            padding: 2px 12px;
+            border-radius: 40px;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        .question-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .question-list li {
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: #1e293b;
+            padding: 6px 12px 6px 28px;
+            position: relative;
+            border-radius: 8px;
+            transition: background 0.1s;
+        }
+
+        .question-list li::before {
+            content: "▹";
+            position: absolute;
+            left: 6px;
+            color: #0a2540;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .question-list li:hover {
+            background: #f1f5f9;
+        }
+
+        /* ───────────── responsive ───────────── */
+        @media (max-width: 700px) {
+            .app-container {
+                padding: 16px 14px 24px;
+                border-radius: 20px;
+            }
+            .header-left .brand {
+                font-size: 1.2rem;
+            }
+            .company-pill {
+                font-size: 0.75rem;
+                padding: 6px 14px;
+            }
+            .nav-bar {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .nav-btn {
+                padding: 6px 16px;
+                font-size: 0.8rem;
+            }
+            .candidate-card {
+                padding: 14px 16px 18px;
+            }
+            .question-list li {
+                font-size: 0.82rem;
+                padding: 4px 8px 4px 24px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .candidate-title h3 {
+                font-size: 0.95rem;
+            }
+            .candidate-title .round-tag {
+                font-size: 0.6rem;
+                padding: 1px 10px;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.25s ease;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container" id="app">
+    <!-- header -->
+    <div class="header">
+        <div class="header-left">
+            <span class="brand">📋 Interview Q&A</span>
+            <span class="badge" id="companyBadge">Accenture</span>
+        </div>
+        <div class="progress" id="progressText">1 / 24</div>
+    </div>
+
+    <!-- company pills – wrapped -->
+    <div class="company-strip" id="companyStrip"></div>
+
+    <!-- navigation arrows -->
+    <div class="nav-bar">
+        <button class="nav-btn" id="prevBtn" disabled><span>←</span> Previous</button>
+        <span class="nav-info" id="navInfo">Company <span id="currentNum">1</span> of <span id="totalNum">24</span></span>
+        <button class="nav-btn primary" id="nextBtn">Next <span>→</span></button>
+    </div>
+
+    <!-- candidates list -->
+    <div class="candidates-grid" id="candidatesContainer"></div>
+</div>
+
+<script>
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // DATA – extracted from provided interview log
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    const companyData = [{
+        name: "Accenture",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech Round",
+            questions: [
+                "1. Why we need Profiles, and how permission sets are helpful.",
+                "2. If user A and User B are in same Role and Assigned same Profile no extra permissions given, User A can able to see User B's record but not vise-versa. what could be the reason.",
+                "3. If user A tries to insert an record, but on the UI he is getting an DML Limit Exception, what could be the reason.",
+                "4. what are the Latest Releases.",
+                "5. What is the use of with and without sharing keywords? what we do if we call class A inside B where the sharing settings to be followed same as Class B.",
+                "6. Write a trigger on Account, to create No Of Contacts based on a field value from account record.",
+                "7. What are the best practices we follow in Test Class. How to test Private Classes.",
+                "8. How to test a Class which has external callouts.",
+                "9. what are Dynamic forms, what is the Differrence in Dynamic forms and record types.",
+                "10. How Async Apex is helpful, what are all diff async jobs and it's differences.",
+                "11. What is Mixed DML Exception how can we handle this.",
+                "12. Can we call future inside a future? what is the exception we get if we cannot call.",
+                "13. What makes LWC special rather than Aura.",
+                "14. Life cycle hooks and examples.",
+                "15. Types of Communication in LWC.",
+                "16. Syntax for Parent to child and child to parent communication.",
+                "17. why can't we make imperative apex calls inside constructor.",
+                "18. Limitations of LMS.",
+                "19. I have a LWC component which is supposed to get the list of contacts for a given AccounRecord, but i couldn't see any response from the LWC component, what could be the possible reasons.",
+                "20. On Portal we have LWC component which implements Lightnin-reocrd-edit-form, If user edits a Lead status field, then in SF side the value should be updated with the same value and vice-versa. How can u achieve this.",
+                "21. What are all the steps we follow to make integration success to an external system. Tell me about yourself What is with sharing and without sharing Scenario suppose there is with sharing class and want to run h method with sharing What is future method Give me way to use non premitive data type in future method Can we call future method in batch class Can we call queable from batch method Write a trigger where we have opportunity object where amount is field and have account amount field get the sum of al opportunity in account field"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "Tech Round",
+            questions: [
+                "1. Why we need Profiles, and how permission sets are helpful.",
+                "2. If user A and User B are in same Role and Assigned same Profile no extra permissions given, User A can able to see User B's record but not vise-versa. what could be the reason. (Ans: using manual sharing)",
+                "3. If user A tries to insert an record, but on the UI he is getting an DML Limit Exception, what could be the reason.",
+                "4. what are the Latest Releases.",
+                "5. What is the use of with and without sharing keywords? what we do if we call class A inside B where the sharing settings to be followed same as Class B.",
+                "6. Write a trigger on Account, to create No Of Contacts based on a field value from account record.",
+                "7. What are the best practices we follow in Test Class. How to test Private Classes.",
+                "8. How to test a Class which has external callouts.",
+                "9. what are Dynamic forms, what is the Differrence in Dynamic forms and record types.",
+                "10. How Async Apex is helpful, what are all diff async jobs and it's differences.",
+                "11. What is Mixed DML Exception how can we handle this.",
+                "12. Can we call future inside a future? what is the exception we get if we cannot call.",
+                "13. What makes LWC special rather than Aura.",
+                "14. Life cycle hooks and examples.",
+                "15. Types of Communication in LWC.",
+                "16. Syntax for Parent to child and child to parent communication.",
+                "17. why can't we make imperative apex calls inside constructor.",
+                "18. Limitations of LMS.",
+                "19. I have a LWC component which is supposed to get the list of contacts for a given AccounRecord, but i couldn't see any response from the LWC component, what could be the possible reasons.",
+                "20. On Portal we have LWC component which implements Lightnin-reocrd-edit-form, If user edits a Lead status field, then in SF side the value should be updated with the same value and vice-versa. How can u achieve this.",
+                "21. What are all the steps we follow to make integration success to a external system."
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "LWC Focus",
+            questions: [
+                "From Lwc what is wire and give example from parent to child and child to parent",
+                "Then he ask if you have worked on any component then explain it he has asked questions from it"
+            ]
+        }, {
+            label: "Candidate 4",
+            round: "Tech (3yrs)",
+            questions: [
+                "1. Brief introduction about your roles and responsibilities",
+                "2. Tell me about your project",
+                "3. What is financial cloud and its features",
+                "4. What are different types of flow",
+                "5. How to stop user to navigating on next screen if any validation is thrown on current screen",
+                "6. If there is any validation you need to show on flow then where you will write this validation.",
+                "7. How many triggers are there in your project",
+                "8. How to activate and deactivate the trigger from code. How you are managing the activate and deactivate trigger configuration in your code.",
+                "9. What is trigger framework",
+                "10. What is test class and what are the considerations while writing test classes",
+                "11. What are different annotations used in test class",
+                "12. How to write test class for HTTP callouts",
+                "13. What type tasks you are working on and explain the scenario which you have implemented/developed recently",
+                "14. What is platform event and explain the architecture of it",
+                "15. Explain your core competency? In which area you have worked in your project",
+                "16. Do you know LWC",
+                "17. Explain component bundle of LWC",
+                "18. How to get data from salesforce? What will be your approach to fetch the data from salesforce",
+                "19. LWC Scenario : consider you are fetching the data from salesforce. Let's say you are fetching accounts data. Now you are getting account list in your js file but data is not displayed on UI. How you will debug this scenario or what could be the possible reason for data is not visible on UI"
+            ]
+        }, {
+            label: "Candidate 5",
+            round: "Advanced LWC",
+            questions: [
+                "1. What are the decoraters in LWC and it's use case?",
+                "2. What is wire call and what are the inbuilt wire API methods in LWC?",
+                "3. Wire call and imperative call?",
+                "4. LDS in LWC and it's mechanism. Benifits it provides?",
+                "5. Child to Grand parent communication by giving scenario? Asked about multiple options of bubbles and composed to true/false?",
+                "6. There is one parent component and two child, how child1 will communicate with child2?",
+                "7. In one lightning page two tabs are there, on some action on tab1, tab2 result should change?",
+                "8. Asked about complete flow of named credential and Connected App in two different scenario? All steps and impotant fields.",
+                "9. SOQL to count the no. of contacts where there is duplicate phone number on contact? (Aggregate SOQL)",
+                "10. There is one SOQL with filter which was returning one record previously and now as there are large data in org this SOQL is giving error. What is the reson?",
+                "11. Asked to write one code in LWC (Parent LWC has 3 input fields and one button, child LWC will use the method from parent to access the input field value from parent)",
+                "12. Life cycle hooks of LWC?",
+                "13. Asked when to use connected callback and when to wire?",
+                "14. Asked about refreshApex?",
+                "15. Asked one question on CSS, he wants to check if parent CSS can be used to modify child styling.",
+                "16. I want to do a call out on insertion of one account."
+            ]
+        }, {
+            label: "Candidate 6",
+            round: "Managerial",
+            questions: [
+                "1. Tell me about yourself and about your projects",
+                "2. What is the name of your current company? Location of your current company?",
+                "3. Where is your home town?",
+                "4. Why do you want to change the organization?"
+            ]
+        }, {
+            label: "Candidate 7",
+            round: "Round 1 (3+yrs)",
+            questions: [
+                "1. How many certificates do you have",
+                "2. Tell about yourself and roles and responsibilities",
+                "3. What is asynchronous apex",
+                "4. Do you know lwc",
+                "5. Do you know hooks",
+                "6. What is integration how will you do it",
+                "7. What clouds have you worked on",
+                "8. Any cpq experience",
+                "9. How you do deployment",
+                "10. What is your role in the team",
+                "11. Any git or capado experience?"
+            ]
+        }, {
+            label: "Candidate 8",
+            round: "Round 1 (1-3 yrs)",
+            questions: [
+                "1. Tell me about yourself along with the project description.",
+                "2. What file do we need to use while creating a chart in LWC",
+                "3. What are the decorators available in LWC? What is the use of that?",
+                "4. Is there any other way to call Apex from LWC?",
+                "5. What is the difference between wire and imperative call",
+                "6. What is cacheable= true?",
+                "7. Where is the cache memory available? Where can we see the cache memory on the browser?",
+                "8. I want to update the list or to sort out the list in js without using Apex, how can we do that?",
+                "9. Write a code for parent and child component, two fields and one button are Available on parent component. Onclick of button I want to send that two fields value to the child component by using method and in child component need to process value and send result back to the parent component.",
+                "10. Do you have idea about LDS? And when to use this?",
+                "11. How many methods are available in js?",
+                "12. How to work on a bulk record in JS? Is there any way to show the bulk records on LWC?",
+                "13. How to make call-out from LWC?",
+                "14. Can we use HTTP call-out directly from LWC?",
+                "15. do you have idea about LMS? how is it different from pub sub? When to use LMS?",
+                "16. Explain about LWC lifecycle hooks? Explain all in a manner when to use and what operation we can perform by using that method?",
+                "17. Do you know render()? What is the use of that and what kind of operation we can perform by using render method?",
+                "18. I got some error in production org, I want to know the exact line where I got the error? How to check that without using visual force? Everything is fine in development org, might be error because of user Authorization or something like that?",
+                "19. Do you have idea about inspect? How it works?",
+                "20. Do you use if, else and greet in your LWC? How it works?",
+                "21. How many types of flows available in Salesforce?",
+                "22. When to use record trigger flow and when to use autolaunch flow?",
+                "23. What kind of updates are available in the record trigger flow?",
+                "24. Ever you work on any asynchronous Apex? What kind of asynchronous Apex did you use in your projects?",
+                "25. Can we make call-out from Queueable Apex?",
+                "26. Do you have idea about batch Apex and when to use that?",
+                "27. How many types of sharing available in Salesforce?",
+                "28. Sharing belongs to which context?",
+                "29. Is it similar to a profile and permission set?",
+                "30. How many types of relationship available in Salesforce",
+                "31. What is the difference between lookup and master detail relationship?",
+                "32. There is the lookup relationship and we already have records in that object but I want to convert it in a master detail relationship how could I do that?",
+                "33. How can I overcome this kind of situation without harming records?",
+                "34. What is the difference between record type and lighting pages?",
+                "35. Ever you work on flex pages and What is the difference between flex and lightning pages?",
+                "36. Ever you created private method? How can we test the private method?",
+                "37. How many types for exception you have encoubter in your projects?",
+                "38. When will get CPU timeout exception and how to resolve this?",
+                "39. When will get SOQL 101 exception ?",
+                "40. When will get Query 151 exception?",
+                "41. When will get Query 201 excepton?",
+                "42. What is the use of process builder ? When can we use process builder?"
+            ]
+        }, {
+            label: "Candidate 9",
+            round: "Snehal Round",
+            questions: [
+                "1) Give brief on your current project.",
+                "2) How can we schedule batch apex. Lots of cross questioning on schedulable.",
+                "3) How do we set cron expression.",
+                "4) How many methods in batch apex. Explain each of them",
+                "5) what is queable apex. Why do we use it. Cross questions on it.",
+                "6) statefull and stateless in batch apex.",
+                "7) Different between database.insert and insert.",
+                "8) Render method in lwc.",
+                "9) if there is one parent and has two childs A and B. How will you you communicate.",
+                "10) how many ways we can communicate in lwc.",
+                "11) Decorators in lwc.",
+                "12) why do we we use LMS. Reason for using LMS over pub-sub model.",
+                "13) what are life cycle hooks",
+                "14) how will you communicate from child to parent. Write pseudo code for it.",
+                "15) Lots of business scenarios. How to handle clients.how to handle arrogant team mates.",
+                "16) Which methodology you use? Agile",
+                "17) how do you define user stories.",
+                "18) How you define timelines of CRs.",
+                "19) Security model in Salesforce.",
+                "20) how will you handle CPU timeout Cases."
+            ]
+        }, {
+            label: "Candidate 10",
+            round: "Tech Round",
+            questions: [
+                "1. Profiles and Permission sets",
+                "2. Validation rules",
+                "3. Trigger to update Account Phone no with Primary Contact phone no( Contact where is primary=true)",
+                "4. Recursive trigger example and ways to Handle it and also implement one of them on the trigger developed in question 3.",
+                "5. Security model in Salesforce",
+                "6. Criteria based sharing",
+                "7. Manual sharing",
+                "8. Develop a apex method with given scenario. Input - List<Child> return - Map<parentId,List<Child>>",
+                "9. Types of communication in LWC",
+                "10. rendered callback. What will happen if we update a track property inside rendered callback.",
+                "11. Event propagation in LWC. Bubble and Composed.",
+                "12. Batch class and its methods",
+                "13. how to do apex call-out in batch",
+                "14. interface vs normal class difference",
+                "15. How can we maintain an instance variable value across batches execution?"
+            ]
+        }]
+    }, {
+        name: "Jeevan Technologies",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech",
+            questions: [
+                "Diff b/w calssic & lightning email template ?",
+                "what are access modifiers ?",
+                "What is Static & non-static",
+                "Templates of Community cloud",
+                "What is data loader & data import wizard",
+                "how to upload file with workbench",
+                "Can we use one batch into another batch",
+                "batch apex size min and max within a single transaction",
+                "How to insert records with the workbench",
+                "What are Access specifiers ? example",
+                "Syntax of batch apex",
+                "What is workspace & content management",
+                "Apex runs in which mode [ Ans: System mode by default ]",
+                "Which keyword should be used to run in user mode",
+                "Trigger to prevent contact from Account deletion",
+                "Batch Apex scenario didn't understood the task",
+                "Types of Communication in LWC"
+            ]
+        }]
+    }, {
+        name: "Air India",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech Round - 1",
+            questions: [
+                "1) difference between custom setting and custom metadata explain how you used in present project.",
+                "2) can we call api through batch class if yes do we need make any changes in the batch (Ans: Yes.but need to implement database.allowcallouts)",
+                "3) write trigger to update account custom field when account is created for specific profiles only"
+            ]
+        }]
+    }, {
+        name: "Veeva CRM",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech",
+            questions: [
+                "what are skinny tables? have you used in your project?",
+                "Have you used stripInAccessable?",
+                "Have you used with secrutiy_Enforced keyword?",
+                "Bulkification in triggers",
+                "How to increase old classic application performance ?"
+            ]
+        }]
+    }, {
+        name: "Deloitte",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech",
+            questions: [
+                "about project and its working",
+                "How to reuse lwc functions in different lwc components? (Using slots in Lightning Web Components)"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "Technical Interview",
+            questions: [
+                "9.To access the record id you need to add the component to a Lightning record page.",
+                "Diff Between lightning record edit form and lightning record form",
+                "Flow to Apex passing data",
+                "The invoked method is the method that is called by the Apex Action in the Flow. The @InvocableMethod annotation allows the Flow to call the method. Use the 'label' attribute to define the display name of the Apex Action. It can have only one parameter. You can have only one invocable method per class."
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "Techno Managerial",
+            questions: [
+                "1. Asked total relevant experience, things which I know in Salesforce and situation where I found difficulty while working in project.",
+                "2. One scenario asked that from client (we got the requirement that we have to develop a UI where On top we have Service center search field. And below that we have to display all the service centers. Once user enters value in address search field we have to display only those service centers whose address match with input (and this should without page load). If in future any new service center will load in SFDC that should also come on UI without downtime. And then we have to add one google map on the same page where we have to pin point all the service center which are present on UI.) -- > Asked me the whole design approach from Data storage(Custom Object or Metadata) till implementation. Multiple cross questions asked.",
+                "3. When we get any email in Salesforce. We have to create a case and make the Status as In-Progress, Priority as Medium and Assign it to queue. How we can do that ? --> I said that we can go with either Record triggered flow or Apex trigger then he asked me to write apex trigger for the same then explain me the approach. From the same trigger he asked me multiple cross questions.",
+                "4. In the same trigger which I had written there he asked in which scenario you will get Too many SOQL query.",
+                "5. Asked few questions on data loader.",
+                "6. Develop a functionality where you have to display 200 FAQ along with search input. and when user search for the question from search input, display only relevant FAQ without reloading the page."
+            ]
+        }, {
+            label: "Candidate 4",
+            round: "Techno Managerial (3 Exp)",
+            questions: [
+                "1. Intro",
+                "2. Diff types of Relation in Salesforce",
+                "3. Diff btw lookup and master details",
+                "4. How security works in Salesforce.",
+                "5. I have a access to case object from my profile crud. My colleague also have same profile. There is one case where i want help from my colleague thn how can i share my record with her.",
+                "6. How i can always share some particular type of case to my colleague.",
+                "7. I have very complex logic to share the record which os not possible with sharing rule then how can i do that",
+                "8. Different events in triggers",
+                "9. How u choose whether u use before or after trigger.",
+                "10. Mixed DML error",
+                "11. Recursion, how to handle, example",
+                "12. Different sync and Async process in Salesforce",
+                "13. When to use which Async process",
+                "14. How does batch works. In which method what happens",
+                "15. Can i call batch from another batch",
+                "16. If i have to send some data from parent to child how can we do that in LWC",
+                "17. Child to parent",
+                "18. In my component i need third party Javascript. How to do that",
+                "19. Types of flows",
+                "20. Different actions performed on record triggered flows.",
+                "21. I have to create list view button. How can I do that",
+                "22. What are different types of integration in Salesforce. Difference btw Rest and Soap.",
+                "23. Explain integration in your project.",
+                "24. As soon as email is getting in Salesforce a case has been created. We have one field on case called email and the senders email is copied in that email field and now I have to check if there is any contact with the same email in Orgs if yes i have to create a contact and link it with the case other have to create a new contact."
+            ]
+        }, {
+            label: "Candidate 5",
+            round: "Technical (3 Exp)",
+            questions: [
+                "1. Intro",
+                "2. Brief on Security Models in Salesforce",
+                "3. 2 user both have same profile amd role but one person is able to see 10 records but other is able to see 100 records of the same object. What is the cause of this.",
+                "4. What all Async methods are there in Salesforce and why we use them",
+                "5. Can we call queable from queable",
+                "6. We have account object and we have related list x. For account there can be multiple record of x and we have one field amount on x we just need to roll up the amount on account. Write a trigger."
+            ]
+        }, {
+            label: "Candidate 6",
+            round: "Technical Interview (2.4 Exp)",
+            questions: [
+                "1) If we have 2000 batches executing in 200 per batch, how many logs will there be",
+                "2) if we have a junction object, one object is made to private and another will be made public(OWD). How the data exchange happen in the case",
+                "3) In sandbox the test has 90% coverage, but when deployed to higher env the coverage is significantly reduced. What might be the reasons",
+                "4) LWC- Child to parent",
+                "5) Imperative call",
+                "6) Explain map in LWC",
+                "7) Lifecycle hooks",
+                "8) LDS- Without apex",
+                "9) LMS",
+                "10) you are working in a component, how would you prevent others making updates on the same component",
+                "11) Test class best practices",
+                "12) How do you handle cpu timeout issue"
+            ]
+        }, {
+            label: "Candidate 7",
+            round: "Technical (3+ years)",
+            questions: [
+                "1) Create a method which takes List<Account> as parameter and returns the Map<String, Integer>. Requirement is to count the number of accounts based on their industry and put them in Map<String, Integer> where key is the Industry and value is the count of the accounts related to that industry. Note: Do not use additional soql i.e. do not use soql on AggregateResult to get the count of the accounts for specific industry.",
+                "2) create a method which takes List<String> as parameter and returns Map<String, List<String>> where Key is the Account Name and List<String> is the list of contact names associated to that account.",
+                "3) What are the public groups why we use them.",
+                "4) Why do we use permission sets",
+                "5) Bypass the sharing of record using Apex. Considering OWD is private for the object and using apex you need to make the records public.",
+                "6) Limitations of future methods",
+                "7) What to do to avoid the error occurred by having the DML on set-up and non-setup objects in a single transaction.",
+                "8) Rest API",
+                "9) Can we create lookup fields in custom metadata?"
+            ]
+        }, {
+            label: "Candidate 8",
+            round: "Techno-Managerial",
+            questions: [
+                "1. Roles and Profile. Have you created any role and profile in your project if yes then explain the requirement.",
+                "2. Asked about governor limit => he gave a scenario like if we have more than 50k records of Account which we want to show on UI. how would we handle this scenario since a query can return 50k records in a transaction otherwise it will hit governor limit.",
+                "3. why/when use Cacheable= true. what if the data at server is changed how do we get the refreshed data. how would we get notified that the data is going to be changed in backend or not.",
+                "4. what is ExternalId field? why used?",
+                "5. How do you recieve masterdata in your project? If you recieve it from external system then how does that integration happening in your project with that external system.",
+                "6. What are Record triggered flows? Give any scenario from your project where you have used RT flow. How did you decide that you should use flow and not trigger for this particular scenario.",
+                "7. If you create flow and trigger both for the same scenario, will salesforce allow you to do that? Or will you get any error. How will the execution happen.",
+                "8. Do you work on agile or waterfall model. How is the sprint cycle in your current project."
+            ]
+        }, {
+            label: "Candidate 9",
+            round: "1st Round (3 Exp)",
+            questions: [
+                "1.Intro",
+                "2. Given scenario where we have to write Batch on user and have to update the account and Opportunity related to it.So I have to write code.",
+                "3. Write Trigger in which we have to write code for apex sharing to share record with user.",
+                "4. Scenarios related to OWD and sharing rule.",
+                "5. We have 10 user all have same profile, same permission set amd role. We want to hide field for some users.",
+                "6.LWC LifeCycle.",
+                "7. Type of Integration on which i have worked on."
+            ]
+        }, {
+            label: "Candidate 10",
+            round: "2nd Round (3 Exp)",
+            questions: [
+                "1. Asked about Heap size issue and cpu time limit error. How will you solve that.",
+                "2. This question is based on above. How will you create one process bulder if there are 3 process builder for one object. In response i said i will create flow.",
+                "3.Given Scenario to create one flow when we have to send two emails when state is not null and country is not null . If first not exist then second mail should go and vice vers.",
+                "3. There is trigger and we have written System.debug inside of it and all events are there and how many time it will execut.",
+                "4. if i get 99 soql in 1st chunk what happen in next chunk."
+            ]
+        }]
+    }, {
+        name: "Infosys",
+        candidates: [{
+            label: "Candidate 1",
+            round: "L1",
+            questions: [
+                "OWD id private but view All and Modify All check boxes are enabled. what will happen?",
+                "expain about sales process?",
+                "what is sales cloud explain?",
+                "trigger to display message as duplicate account exists",
+                "service cloud tools",
+                "write an soql query to restore records from recycle bin?"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "Tech",
+            questions: [
+                "1.) Write a trigger so when account's email will update related contacts email also should update",
+                "2.) communication in lwc",
+                "3.) After deployment an user is facing issue to see data, as a developer u get that ticket, how u help that user",
+                "4.) Track and api decorator",
+                "5.) Can we communicate between parent to child using api, if yes,how?",
+                "6.) why we need asynchronous apex? Type of asynchronous apex. Have u used it in ur project and how?",
+                "7.) Senarios on page layout, field permissions",
+                "8.) Is it good to change directly in production org?"
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "L1 Round – 01/11/2023",
+            questions: [
+                "1. What is the difference between Process Builder & Workflows?",
+                "2. What are the methods in future in asynchronous methods?",
+                "3. In which case you will use Database.stateful?",
+                "4. What is the difference between Static and Dynamic dashboards?",
+                "5. What are the different types of Reports & Dashboards?",
+                "6. What do you mean by Governor limits?",
+                "7. Write the syntax for Batch Apex?",
+                "8. Write a Trigger to create an associated contact whenever an account is created?",
+                "9. What are the best practices for Test classes?",
+                "10.What are the different events in Triggers?",
+                "11.What are the different events in Aura components?",
+                "12.What is the order of execution in Triggers?",
+                "13.What is Email -to- case?",
+                "14.What are the different types of flows?",
+                "15.Explain a scenario where you used Aura components?"
+            ]
+        }, {
+            label: "Candidate 4",
+            round: "L2 06/03/2024",
+            questions: [
+                "1) Diff between == and ===",
+                "2) LWC lifecycle hooks",
+                "3) Order of execution",
+                "4) In order of execution what will be called first before insert flow or trigger",
+                "5) Trigger to copy shipping city same as billing city while creating a new account",
+                "6) Vlocity basics",
+                "7) Realtime data Integration between salesforce and SAP",
+                "8)When will be @wire called in LWC lifecycle"
+            ]
+        }, {
+            label: "Candidate 5",
+            round: "L2 Round – 01/11/2023",
+            questions: [
+                "1. Which kind of Aura component you worked on? What does it do?",
+                "2. Explain about your Latest project? On what development What did you last worked on?",
+                "3. How did you migrate classic to lightning migration? What approach did you followed while migration?",
+                "4. Did you do any VF page migration?",
+                "5. Did you worked on any governor exception? Give me an example of how you fixed it?",
+                "6. How did you resolve the record lock exception?",
+                "7. How we can prevent a trigger from being in a Recursion loop?",
+                "8. What kind of parameters can a Future methods takes? What are the limitations?",
+                "9. Can we call another batch from a future method, future to future method?",
+                "10.There are two methods in test classes. Start and stop test. What does they do?",
+                "11.How do you test the REST class in a test classes?",
+                "12.What is === vs == in JavaScript?",
+                "13. In LWC component you need to pop-up a model. How do you pop up a model. Suppose you has to pop-up an edit form from an LWC page. How do you implement a pop-up model?",
+                "14.What are the different types of flows?",
+                "15.Did you worked on schedule- triggered flow?",
+                "16.What did you know about schedule- triggered flow?",
+                "17.Did you worked on the CPU time limit exception? Can you know how to debug this in the debug log?"
+            ]
+        }, {
+            label: "Candidate 6",
+            round: "Round 2 (2.5 Exp)",
+            questions: [
+                "1. Trigger Context Variable.",
+                "2. What is batch Apex, and why do we use it?",
+                "3. What is the scope parameter in Batch Apex?",
+                "4. Trigger to calculate the total sum of opportunity Amount on account custom field when opp is updated.",
+                "5. order of execution.",
+                "6. Flows vs triggers.",
+                "7. Write a LWC to display the Account and related Contacts records in a datatable."
+            ]
+        }, {
+            label: "Candidate 7",
+            round: "Round 1",
+            questions: [
+                "1.Can we delete user in production?",
+                "2.Validation rule bypass",
+                "3.Write trigger for rolup on parent object",
+                "4.Parent to Child Communication and vice versa.",
+                "5.Limit.getQuery() and Limit.getLimitQuery()"
+            ]
+        }, {
+            label: "Candidate 8",
+            round: "Round 1",
+            questions: [
+                "Workflow vs process builder",
+                "Wrapper class",
+                "Roles vs profiles",
+                "Trigger update contacts email address when account email address is updated",
+                "Decorators in lwc",
+                "Write toast message in lwc",
+                "Round 2: 1. Data migration tool, Data Import wizard, Can we insert custom settings using data import wizard, During upsert what happens",
+                "2. Custom settings and custom metadata",
+                "3. Queuable apex",
+                "4. Batch apex, How to handle error in batch apex, Database.stateful?",
+                "5.trigger Update opportunity 30 days older record and stagename!= close won to close lost whenever we update account details",
+                "6. Parent to child communication",
+                "7. Child to parent communication",
+                "8. About Deployment",
+                "9. Best practices to resolve 101 error"
+            ]
+        }, {
+            label: "Candidate 9",
+            round: "L1 (7+ yrs)",
+            questions: [
+                "Data is inserted in external website, on Insert it should created Lead",
+                "Lead has multiple products, on Lead conversion opportunity should be mapped to same products, How to achieve it",
+                "Can the above scenario done with flow",
+                "write trigger if opporunity stage changes then task needs to be created and assigned to user",
+                "How to Bulk API for external applications",
+                "I need LWC component which show data from 3 diff tables which are related and this should be shown when button is clicked and in real time.",
+                "I need 2000 records to be fetched from external application and show it on UI but not saved in any table, user will select the records and click which should be save to another application."
+            ]
+        }, {
+            label: "Candidate 10",
+            round: "L1 (3+ yrs)",
+            questions: [
+                "1) Introduce youself",
+                "2) Clouds you worked on.",
+                "3) Take any one requirement from your project and explain it in detail",
+                "4) Which type of code we can write in finish method?",
+                "5) Tell me the syntax of calling batch?",
+                "6) What are all interfaces in batch?",
+                "7) Howmany ways we can achieve Aysnc using Async Apex?",
+                "8) In which situation we use Queueable?",
+                "9) Purpose of future method?",
+                "10) Have you worked on trigger? What was the requirement how you achieved it?",
+                "11) There is a contact need to find the Account of it then find the all associated contacts of it how can we achieve this?",
+                "12) Follow up-If we query it it is from backend howmany ways we can show it on user interface.",
+                "13) If we want to display data on record page how we can do that?",
+                "14) What is the relationship between Account and contact?",
+                "15) If we delete Account than all contacts will also gets deleted?",
+                "16) We have 2 users with same profile , role and permission sets, users have create , read edit and delete access, owd is private will user be able to see each others record?",
+                "17) If we want that user should see each other records how can we do it? We are not allow to edit owd. Can only use profile and permission set . What is apex sharing?"
+            ]
+        }, {
+            label: "Candidate 11",
+            round: "Technical Round",
+            questions: [
+                "How to serialise the json response",
+                "Difference between Synchronous and Asynchronous",
+                "Difference between trigger and future method",
+                "Difference between future method and batch apex",
+                "Trigger whenever contact gets updated, fetch the related opportunity and then calculate the sum of opportunity amounts and store it in the account custom field"
+            ]
+        }, {
+            label: "Candidate 12",
+            round: "Round 1 (3 YOE)",
+            questions: [
+                "1. Intro",
+                "2. What is Salesforce?",
+                "3. Is Salesforce Saa or Pass model?",
+                "4. Types of relationship",
+                "5. Master, lookup and junction - with example",
+                "6. Relationship between account and contact",
+                "7. Flow and types of Flow",
+                "8. Types of asynchronous apex",
+                "9. What is future annotation?",
+                "10. Limitation of future apex",
+                "11. Role vs Profile difference",
+                "12. Permission Set and Permission Set group scenario based question",
+                "13. What is governor limit?",
+                "14. What is CMS?",
+                "15. What is trigger? Types of trigger?",
+                "16. What is LWC?",
+                "17. What is decorator ? Difference between API and wire",
+                "18. How we can retrieve the data from Salesforce to LWC?",
+                "19. Communication between Grandparent to grandchild in LWC"
+            ]
+        }]
+    }, {
+        name: "JD Global",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech",
+            questions: [
+                "with sharing and without sharing",
+                "communication between lwc cmps",
+                "write an apex trigger when all opportunitylineitems are closed , update related opportunity also should be closed?",
+                "share record with another user, how many ways we can share?",
+                "explain secruty model?",
+                "What is LDS and wire"
+            ]
+        }]
+    }, {
+        name: "Genpact",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech",
+            questions: [
+                "what is trigger.newmap?",
+                "what is trigger.oldmap?",
+                "write an trigger when opportunity records get updated related contact fields should update?",
+                "Can Future method call / invoke another future Method ? [Ans: No , They can't invoke another future Method ]"
+            ]
+        }]
+    }, {
+        name: "Pletra Technology",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Round 1",
+            questions: [
+                "1. Create a duplicate lead when a lead is inserted.",
+                "2. interviewer asked about type of flows and what is platform-event flow?",
+                "3. When an account BillingCity is updated, update all its contacts MailingCity with account BillingCity.",
+                "4. Write a trigger on Account, when an account is inserted, automatically account billing address should populate into the account shipping address.",
+                "5. Write a trigger, only the system admin user should be able to delete the task."
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "Round 2",
+            questions: [
+                "1. Why salesforce technology is used in businesses?",
+                "2. write validation rules for following scenario : Validates that a custom field called Other Reason contains a value if a case has a Case Reason of “Other.”",
+                "3. How to fetch that users who have profile as 'System Administrator' [Ans : SELECT Id FROM User WHERE Profile.Name = 'System Administrator']",
+                "4. write a query to retrieves the Id, Name, and a nested query result of Contact records (including Id, FirstName, and LastName fields) for each Account.",
+                "5. then she asked me to store the fetched result of above query into list of account then she told me to make a map like this format <Id, List<Contact>> and store the account Id and their associate list of contact",
+                "6. When we create the Account record, the Account Owner will be automatically added to Sales Rep field. When we update the Account owner of the record, then also the Sales Rep will be automatically updated.",
+                "7. She asked some basic questions on batch class, queueable class, future method and schedulable class."
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "Round 3",
+            questions: [
+                "1. He has asked a lot of questions on asynchronous concepts like you can call this from that method or not.",
+                "3. what is auto-launched flow?",
+                "4. Interviewer asked about decorators in lwc",
+                "5. Interviewer asked about lifecycle hooks in lwc component",
+                "6. how to communicate between parent to child and child to parent ?",
+                "7. how to communicate between two separated components in lwc?",
+                "8. he has asked some questions from data security like explain data security in salesforce",
+                "9. what is the way for record level security?",
+                "10. he asked this scenario of data security like if you have two profile and in one profile you have to assign read only and other profile you have assign read and edit access. how will you going to approach this scenario ?"
+            ]
+        }]
+    }, {
+        name: "LTIMindtree",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech",
+            questions: [
+                "Flow functionlity",
+                "How to control heap size?",
+                "How will you handle CPU limit exeeded?",
+                "How to call apex method without using wire decorater?",
+                "how to create lwc for account record page when ever we open any account record it should display all its related child objects records?"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "L1",
+            questions: [
+                "1. Do you know what is LWC OSS?"
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "L1 (2.5 Yrs) 8/6/2024",
+            questions: [
+                "1. Explain your Project ? How you use Salesforce and what features you use?",
+                "2. Asked about OmniChannel routing, types of routings and Einstein Bot Integration(From my project Explanation)",
+                "3. Apart from Functional aspects what are the areas in development that you were involved into.",
+                "4. Write a trigger on deleting account, the related contacts should be deleted.",
+                "5. Do you have exposure to Sales Cloud also along with Service cloud.",
+                "6. Asked about experience in LWC and rate urself in it. How Events communicate in LWC",
+                "7. Explain one challenging scenario in your project and how you overcame it.",
+                "8. What is the one Governor limit you hit and how you resolved it.",
+                "9. How to avoid Trigger Recursion. Where we will place the static Boolean variable and how we will use it.",
+                "10. Asked about Integrations in project? Followup questions on which API used, What Methods/Classes created"
+            ]
+        }]
+    }, {
+        name: "ShoppersDrugMart / Info Beans",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech",
+            questions: [
+                "1)Asked about current project. Almost 5-6 questions were asked.",
+                "2)Why you implemented lwc. You could have used Dashboard.",
+                "3) Decorators.",
+                "What is the purpose of using wire decorator.",
+                "4)how can we call apex. Difference between wire method and imperative method. How can we make imperative method reactive.",
+                "5)There are two objects movie and ratings. You have to prepare one dashboard where where you have to show movie and it's ratings. Movie Id is associated with ratings. how will you achieve that.",
+                "6)How will you achieve parent to child communication and child to parent commnunication.",
+                "7)Variables in flow. she asked me whether delete option is there in flow or not.",
+                "8)There are two components in contacts and applications(custom object). I want to show no of applications in contact object. What will be your approach for this.She told me to write trigger for this.",
+                "9) platform events.",
+                "10) Asynchronous apex and it's type",
+                "11) Difference between future apex and queable apex.",
+                "12)How can we overcome mixed dml future apex?",
+                "13)what is setup and non-setup objects.",
+                "14) Have you worked on escalation rules.",
+                "15) can we call future apex from triggers?",
+                "LWC Life Cycle Hooks"
+            ]
+        }]
+    }, {
+        name: "Dhurvi",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech",
+            questions: [
+                "Validation Rule",
+                "Deserialisation",
+                "What is CRM",
+                "Difference between Standard and Custom Object",
+                "Master Detail Relationship",
+                "Write SOQL query to show the count of duplicate records of Lead based on Phone. SELECT Phone, COUNT(Id) FROM Lead GROUP BY Phone HAVING COUNT(Id) > 1",
+                "Batch Apex",
+                "Difference between Managed Package and Unmanaged Package.",
+                "what is Callout and Callin ? and How to perform ."
+            ]
+        }]
+    }, {
+        name: "Salesforce",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech",
+            questions: [
+                "1. What is Remote Site settings.",
+                "2. What is connected app.",
+                "4. LWC lifecycle Hooks",
+                "5. What is platform event and change data capture.",
+                "6. How to perform call-out and call-in.",
+                "7. Flows and it's types.",
+                "8. What is debugging.",
+                "9. How to overcome CPU time limit exception.",
+                "10. Scenario based question on sharing and security.",
+                "11. When to use Flows and Trigger.",
+                "12.What is dynamic SOQL?"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "Technical Consultant R1",
+            questions: [
+                "1. Introduction.",
+                "2. Asked whole serrvice cloud feature like omnichannel, routing, escalatio rule and some scenarios.",
+                "3. Scenario for manual sharing",
+                "4. OWD is public read write for user and there is 10 contact in salesforce but user is able to see 9 records only.",
+                "5. Write trigger to prevent user position record if already exist with active value. Check best practises are followd or not.",
+                "6. Integration and use of streaming api in that.",
+                "7. Asked about the x",
+                "9. LWC parent to child communication scenarions.",
+                "10. Issue we can get when we are calling LWC class.",
+                "11. I create method in LWC but not able to call that one.",
+                "12.Render scanrion is there . What is Rendercallback and how to prevent code execution there.",
+                "13.Asked about XML file.",
+                "14.With SHaring and without sharing scenario,",
+                "15. WIll user be able to create record if user don't have access of object in with sharing class which we are calling from LWC."
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "Technical Consultant R2",
+            questions: [
+                "1. Very deep dive into current project (why you did what you did, how you could have done it better?)",
+                "2. I mentioned about CTI integration, so asked about call log generation in Salesforce via standard APIs.",
+                "3. How have you handled edge cases in the code that you have written. (specific to your project)",
+                "4. Error retry and error logging mechanisms when inserting data into db using apex.",
+                "5. Performance impact while using @track decorators in LWC.",
+                "6. Explanation of the integration scenario I have worked on. The authentication technique used and the end-to-end flow.",
+                "7. Have you worked on setting up SSO? Do you have idea on what is SSO?",
+                "8. Have you worked on git commands?",
+                "9. I have a batch on accounts in which for each account I process, I want to send an email plus check a checkbox on the account. What would be your approach? Where would you send the email, in the execute method or in the start method? Will you be hitting any governor limits?",
+                "10. I have an LWC to display data to unauthenticated guest user in community. How will you give permission to the user and display data?",
+                "11. What if the user wants to create or update the records how do you give access?",
+                "12. I have an apex method which I want to call in with sharing mode for internal authenticated users but for unauthenticated users I want to call it in without sharing mode. How would you achieve that?"
+            ]
+        }, {
+            label: "Candidate 4",
+            round: "Technical Consultant R3",
+            questions: [
+                "1. What was your team size in the agile project?",
+                "2. What proportion of your team was on shore vs off shore?",
+                "3. What is the requirement gathering process in your current project?",
+                "4. What was your team structure?",
+                "5. What was the size of the biggest team you were a part of? Was it all developers or others as well?",
+                "6. Have you been part of all agile project ceremonies?",
+                "7. How do you deal with external teams who have different style of functioning and different delivery timelines?",
+                "8. Have your stories ever spilled over and how do you plan better?",
+                "9. What was the story estimation techniques you used during sprint planning?",
+                "10. Suppose in the middle of the sprint you find that you estimated a story low. How do you go about re-estimating it?",
+                "11. What do you like better, agile or non-agile projects?",
+                "12. What was your sprint size and what was the number of sprints for each increment?",
+                "13. What do you think are the drawbacks of agile methodology?",
+                "14. How important is a good devops process in a project?",
+                "15. What deployment tool are you currently using in your project?",
+                "16. What are the drawbacks of change sets?",
+                "17. Suppose you are the only expert of a certain module in your project and for some reason you are unable to attend work. What would you do in such type of situation?",
+                "18. Suppose we have all of our upcoming sprints planned and the client comes up with a priority requirement that needs to be done in an earlier sprint but your team is out of capacity. How would you handle it?",
+                "19. How do you ensure that there is constant knowledge sharing sessions in your project?",
+                "20. Have you also worked on resolving production incidents? (L2 Support)."
+            ]
+        }, {
+            label: "Candidate 5",
+            round: "Technical Consultant Role",
+            questions: [
+                "1. What do you understand by salesforce, what do you think about Custom Objects, custom fields, relationships and how is Salesforce different from any other database application?",
+                "2. Explain the entire salesforce security model.",
+                "3. What is apex sharing, some scenario where you have used it?",
+                "5. What is the maximum trigger depth in salesforce?",
+                "6. How can you avoid recursive triggers? (Interviewers expect something more than just static Boolean variable approach because it is not the best approach to avoid recursion.)",
+                "7. Do you have experience on design patterns like singleton, factory etc.?",
+                "8. What kind of integration scenario have you worked on?",
+                "9. What do you mean by point-to-point integration? (Because I used this term while explanation)",
+                "10. What are the different annotations used in apex test classes?",
+                "11. Use of testSetup method.",
+                "12. What is one scenario you where you think you can use seeAllData=true?",
+                "13. Can you access custom metadata records in apex test classes without seeAllData = true? And what about custom setting records?",
+                "14. What is Test.startTest() and Test.stopTest()?",
+                "15. I have a batch class for which I am writing a test class. I am calling the Database.executeBatch() method along with the instance of the batch but I am only getting coverage for the start method. What could be the reason?",
+                "16. Can you call a queueable from a queueable?",
+                "17. Can you call a queueable from a batch?",
+                "18. How many queueables can you call from a queueable or an asynchronous context and how many from a synchronous context?",
+                "19. What is queueable chaining?",
+                "20. Overall best practices of apex.",
+                "21. Decorators in LWC.",
+                "22. I have a large JSON that I am displaying on the LWC and the changes made to the JSON are not reflecting on the UI. What can be the reason?",
+                "23. Wire vs imperative? Is wire reactive by default? If not how to make a wire method reactive?",
+                "24. Best practices of LWCs.",
+                "25. Do you know what is LWC OSS?",
+                "26. Did you follow best practices of LWC when you started initially working on it (be honest here.)?",
+                "27. Do you have experience on copado? Do you have any experience on setting up copado pipelines?",
+                "28. given a json to create a wrapper class and update the custom object in salesforce.",
+                "4. With sharing, without sharing and inherited sharing in salesforce. How are without sharing and inherited sharing different?"
+            ]
+        }]
+    }, {
+        name: "Capgemini",
+        candidates: [{
+            label: "Candidate 1",
+            round: "L1",
+            questions: [
+                "How many ways can we make a field manadatory",
+                "Can we make a field manadatory via trigger !",
+                "Access levels in salesforce",
+                "What is named credential",
+                "Oauth,SAML,SSO",
+                "Dispaly wired method data into a datatable",
+                "Trigger wheneever you update a field in parent correspndg child field should be updated",
+                "Trigger Sum of Amount of all opportunities and update it in Account",
+                "Why do we use remote site settings",
+                "Diff betwen connected app and remote site settings",
+                "Life cycle hooks",
+                "LDS nd what is it s imporance",
+                "Aura - Child to parent communication",
+                "What is the use of test class",
+                "Best practices of test class '",
+                "Expalin about flow screen elements",
+                "Batch apex syntax",
+                "What is asynchronous apex",
+                "How to achieve field level security in salesforce",
+                "Diff betwen custom settings and custom metadata",
+                "Write a lwc child to parent communication",
+                "How do we create a channel in pubsubmodel (Create channel,subscribe channel,publish a channel)",
+                "What is toast message how many typsdo we have"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "L1",
+            questions: [
+                "What is the difference between queue and public groups",
+                "Ways to share record in Salesforce",
+                "Can we handle Salesforce governor limits in apex using try catch",
+                "What are governor limits in Salesforce",
+                "What is Bucket field in Reports",
+                "How we can show toast message in LWC",
+                "Decorators in LWC",
+                "Various debug mode in Salesforce",
+                "When to go with Rest integration",
+                "Can we do soap integration without WSDL"
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "L1",
+            questions: [
+                "1) Validation rule---how to bypass for certain profiles- can we write formula in validation rule",
+                "2) Mixed DML error---methods to bypass it apart from future method",
+                "3) Security enforcement in apex code apart from with sharing",
+                "4) What is apex sharing. How can we achieve that",
+                "4) MD & Lookup difference. How to convert one to other",
+                "5) Flows type",
+                "6) Can we call future from another future method",
+                "7) Can we call batch from another batch? If yes from where and why",
+                "8) Lifecycle hooks",
+                "9) What is uiRecordApi and why we use it",
+                "10) Different ways to communicate between components",
+                "11) How all we can get data from backend",
+                "12) How to show toast notification in lwc",
+                "13) Navigation services",
+                "14) LDS",
+                "15) Can we call one flow form another flow."
+            ]
+        }, {
+            label: "Candidate 4",
+            round: "L1 (SF 2.5, overall 4.5)",
+            questions: [
+                "1. Difference between sales cloud and service cloud",
+                "2. What are synchronous apex and aync apex.",
+                "3. Why we cannot call other async operations from start or execute method in batch",
+                "4. Explain life cycle hooks",
+                "5. What are decorators",
+                "6. Explain security model in Salesforce",
+                "7. A,B,C,D are users with same profile all are having read and write access I want to remove write access from A. how to achieve this?",
+                "8. Write a query on account to fetch accounts which are having related contacts",
+                "9. I want to fetch lead records which are created in last 4 years"
+            ]
+        }, {
+            label: "Candidate 5",
+            round: "L1 (3.5 YOE)",
+            questions: [
+                "1. Email limitation in triggers? Upto how many email we can send?",
+                "2. What is promise",
+                "3. Communication b\\w components",
+                "4. Diff. b\\w Record trigger flow and triggers",
+                "5. Deployments ways and How you are doing deployments?",
+                "6. Limitations of chnage sets",
+                "7. Last implemented senario of apex in your project",
+                "8. Async. Apex - Explain all with use cases",
+                "9. Write a trigger to prevent user from deletion of invoice record if there related opportunity having stage name is closed won.",
+                "10. Record types",
+                "11. How to show picklist filed values in the different profiles with the different records.",
+                "12. Have you worked on integration?",
+                "13. How to handle errors in LWC?",
+                "14. WHat are the three limitations of flows while working on it"
+            ]
+        }, {
+            label: "Candidate 6",
+            round: "Round 2",
+            questions: [
+                "1. Trigger whenever the account address is updated, update their related contact address as same.",
+                "2. Parent to child/ Child to parent communication -- explain",
+                "3. Explain LMS",
+                "4. Explain LDS",
+                "5. Decorators in LWC",
+                "6. Types of flows and is there any requirement that you used Autolaunched flow in your project and",
+                "7. where to use Autolaunched flow and Record trigger fow --> difference",
+                "8. Explain difference in all flows with use cases",
+                "9. Some cross questions on that use cases",
+                "10. Where to use flows and triggers",
+                "11. Async. Apex",
+                "12. Project discussion",
+                "13. Have you worked on integration?",
+                "14. if there is an email field in contact object and we need to update it but we do not use before we use after trigger, so it will execute it and it will thrown an error?",
+                "15. diff in Rest and SOAP api"
+            ]
+        }, {
+            label: "Candidate 7",
+            round: "Round 1",
+            questions: [
+                "1)Write trigger on opportunity should not have more than one opportunity contact role",
+                "2)how to restrict users from copy pasting text in text box in lwc they only should be able to write it",
+                "3)lifecycle hooks",
+                "4)have u ever used dataloader my requirement is customer wants to update100 opportunity stagename to closed 1month later he said that he wants to undo those changes.how u will do it",
+                "5)do you know history object can we query history object",
+                "6)Different way to share records",
+                "7)can we use formula field in criteria based sharing rule",
+                "8)how u were doing deployment",
+                "9)how u were deploying lwc components",
+                "10)do you worked on integration",
+                "11)have you worked on flows",
+                "12)diff between workflow n flows",
+                "13)will flows works for delete dml"
+            ]
+        }]
+    }, {
+        name: "EY / E&Y",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech",
+            questions: [
+                "in salesforce two user same role so how can restrict user records to some users by location how can do this ? --> ANS : set OWD to private",
+                "How to fetch related object data in flow ?",
+                "Why we use apex trigger in compare to flow ?",
+                "Write a SOQL query count of opportunity stages ? SELECT StageName, COUNT(Id) FROM Opportunity GROUP BY StageName",
+                "Integration scenario integrated salesforce with ERP we need sync data from ERP to salesforce and salesforce to ERP , also can update bulk data from ERP",
+                "what is the approach to do this requirement ?",
+                "What difference queueable , schedule and batch apex ?",
+                "Why be use connected app",
+                "When we use get post method ?",
+                "Write trigger for there is some pick list gender field male and female on contact and we need to show only count of male field record on account ?"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "L1 (3 Years Experience)",
+            questions: [
+                "1.) we have 10 users having permission CRE we need to remove E C access of two user how to do",
+                "2.) What is Queue & Public Group",
+                "3.) Best practices of flow, Trigger, TestClasses",
+                "4.) Test.isrunnigTest use test.stopTest & test.startTest",
+                "5.) assume we have 10 manage packages in org n all they have trigger on contact object and each trigger has 10. SOQL and user create trigger on same object with 5 SOQL so will it work or through an error",
+                "6.1) create batchclass with all methods n call Queuable from batch.",
+                "6.2) can we call future method from trigger.",
+                "7.) How to call screenflow from LWC",
+                "8.) write query select id,Name from account where Id not in (select AccountId from contact)",
+                "9.) Whenever create task checkbox checked for case on an account a followup task is automatically created for the primary contact of account.",
+                "10.) can we edit Apex Trigger, classes vfPages in Production",
+                "11.) how to avoid trigger recurrsion (without using static boolean variable)",
+                "12.) how to get current userId in LWC without using Apex?",
+                "13.) how to pass data to grandParent component LWC",
+                "14.) Explain LMS"
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "(3+ years experience)",
+            questions: [
+                "1) Whenever account's email is updated, update the related contact's email. Write a trigger.",
+                "2) There are 2 different profiles- Profile A and B, OWD is private. There is an object with Phone as field. Phone field should be mandatory for Profile A and not mandatory for Profile B. How can we achieve it?",
+                "3) There is an object with a picklist field called Status. There are 3 options- Approved, Submit and Pending. Once the Status field value is 'Approved', only system admin can change the status to Submit or Pending. How can we do this?",
+                "4) Explain Email to Case ?",
+                "5) Sequence of method calling in LWC- ConnectedCallback(), RenderedCallback() and wire()",
+                "6) What is Asynchronous apex and types of Asynchronous apex.",
+                "7) Explain batch apex",
+                "8) Tell any use case where you have written some code in finish method.",
+                "9) How can we check the status of our batch job?",
+                "10) How to schedule batch for every 30 mins?",
+                "11) OWD is private and there are 2 users(profile are different). User A can see the account as he/she is the account owner and User B cannot see that account. Account object has a lookup field which has User B's name. But we also want User B to see the account record. How can User B see the account and can sharing rules be used on lookup field?",
+                "12) How do you call Apex method in LWC?",
+                "13) LWC is placed on record page and you want to get the record id of the page. How can we do it?"
+            ]
+        }, {
+            label: "Candidate 4",
+            round: "(4 yr Exp)",
+            questions: [
+                "1) Write soql to fetch the account with the most number of contacts: SELECT AccountId, COUNT(Id) FROM Contact GROUP BY AccountId ORDER BY COUNT(Id) DESC LIMIT 1",
+                "2) Create a list of integers sort them and remove the duplicates.",
+                "3) LWC parent-child communication",
+                "4) And why dml is not enabled in cacheable true classes?",
+                "5) How do u pass parameters from app builder to lwc component",
+                "6) Future method queueable method",
+                "7) How do u see private variables in test classes",
+                "8) Use of test.start test and stop test",
+                "9) Which exceptions can't we catch in apex class?",
+                "10) Why don't we generally use see all data= true in apex test class?"
+            ]
+        }, {
+            label: "Candidate 5",
+            round: "(4+ Yrs Exp)",
+            questions: [
+                "1. Self intro",
+                "2. What are the clouds you have worked on? What is service cloud?",
+                "3. What is custom permission? (NEW QN)",
+                "4. Relationship in salesforce",
+                "5. How many lookups can we have on an object.",
+                "6. What m-d-r obj do we have in salesforce? [Campaign - campaign member, opportunity - opportunity line item]",
+                "7. What is apex based sharing how it works?",
+                "8. What are the automation tools have you worked.( flow, triggers)",
+                "9. What are the types of flow?",
+                "10. How can we call an apex from flow?",
+                "11. Return type of @invocableMethod ?",
+                "12. Can we have multiple flows on a single object ?",
+                "13. There is a criteria based sharing rule. criteria: if the account billing state is Karnataka user will have 'edit' access.In apex sharing it is written the same. Someone has modified the billing state to something else , will that person still have access to that record?",
+                "14. What are the async apex have you worked on? [Answered: batch, future]",
+                "15. Can you explain the scenario for which you have used the future method?",
+                "16. For the above scenario you can use batch as well, why used future method",
+                "17. what parameter did you pass in your above explained scenario? [ My answer: list of IDs ]",
+                "18. What parameters are acceptable for future method.",
+                "19. What is the exception that you faced recently .",
+                "20. What is a field filter validation exception .",
+                "21. Rate yourself in apex out of 5 ?",
+                "22. In how many ways you can check if a person has access? In apex",
+                "23. If a third party system has to call our system, what do we need to do? ( integration )",
+                "24. What is system.runas()? Why we use it?",
+                "25. What security does system.runas enforce? Field level or record level?",
+                "26. Why do we use test. Starttest, test. StopTest in test classes?",
+                "27. Can we call Lwc from aura. How and is viceversa possible",
+                "28. If have to communicate between parent aura and child Lwc . How can we achieve it.",
+                "29. Trigger scenario: There is a field on contact isActive_c. On account object, populate the active no. Of contacts in a field no_of_active_contacts_c.",
+                "30. Can we have multiple js for a single LWC comp?",
+                "31. How many records can we process in data loader?",
+                "32. How many records can we process in workbench ?",
+                "33. Custom metadata vs custom settings",
+                "34. Have you used custom metadata type in your project ? Explain the scenario",
+                "35. dynamic forms. How can you display different layout for different users or based on some conditions how can you control the visibility of layouts."
+            ]
+        }, {
+            label: "Candidate 6",
+            round: "Tech (3.4 years)",
+            questions: [
+                "1) How to fetch and display Json data",
+                "2) write a code to create a map for account and its related contact",
+                "3) write a lwc component to have a button and click on the button it should show and hide the text",
+                "4) what is the use of permission set",
+                "5) why we cant reduce the access in permission set",
+                "6) what is composite api",
+                "7) how to make apex method reactive without wire",
+                "8) if i want to perform dml operation in apex method which has auraenabled cacheable= true, how to do that?",
+                "9) explain sharing model",
+                "11) scenario where we use renderedcallback hook"
+            ]
+        }]
+    }, {
+        name: "TCS",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech",
+            questions: [
+                "1) What is the data security model that your organization is following?",
+                "2) OWD = public read/write there is user A, and user B I want to make OWD private to user B, how to achieve this? The salesforce.com sharing mechanism is permissive, not restrictive, meaning you can only ever increase access through code or configuration levels, not decrease it. This means that if your organization wide defaults (OWD) is set to Public Read/Write, you need to change to private. same question if both the users A and B are on the same profile and If i want to make OWD private to User B how to achieve this?",
+                "3) what is OWD?",
+                "4) what is Role hierarchy?",
+                "5) what are collections in Apex?",
+                "6) when do we use them in, can you tell me the use case for when to use set, list and Maps?",
+                "7) Suppose two user have the same Profile and both have delete access on a Object Record. If we want to restrict one of the users from deleting the records, what we have to do ? -- trigger and from winter 2024 we can directly do it from flow",
+                "8) Can we covert lookUp Relationship into Master ? What change we need to perform to do the same ?",
+                "9) What is Roll Up Summary Field ? Can we achieve this funtionality in a lookUp relationship and how ?",
+                "10) How a change in Parent LWC component will reflect in a Child cmp ?",
+                "11) Rest and Soap Api - Which one is Better and why ?",
+                "12) Is finish method mandatory in Batch Apex ? When we use Batch apex ?"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "Tech",
+            questions: [
+                "1). Three components A,B,C A is parent B is child C is grandchild How we will send the data from C to A directly How we will send the data from A to C directly",
+                "2). Is there any way to restrict user to delete the record ? ( consider inserting the data and during the insertion i want to enforce user access)",
+                "3). You create a instance and you assigned all 10 field values and u send it to lwc component but in lwc u r not able to see only 5 fields what can be the reason ?",
+                "4). On department obj there is a field called total sallery and there is a lookup relationship with emp obj, so one department have multiple employees so if i open any department record i shld be able to see the total salary that department is spending on employees",
+                "5). When a contact is Created check if there is Account with Name Contact lastName-'Account', if yes tag this contact to the Account else create a Account with name Contact lastName-'Account' and tag this newly created Account and Contact."
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "Walkin Round 1 (7+ relevant exp)",
+            questions: [
+                "Tell about yourself",
+                "Did you worked on LWC",
+                "What was developed, Can you explain it",
+                "Did you use mutliple components, how data was sent from parent to child and vice-versa",
+                "Did you use callback hook, tell about LWC hooks",
+                "What is LMS and when to use it",
+                "Best scenario of trigger",
+                "Security in Salesforce",
+                "I have 10 users having same profile and this profile has all permissions. I want to give only 2 users read permissions. How to achieve this",
+                "How to call external service from LWC",
+                "How to call from apex",
+                "Security_Enforced"
+            ]
+        }, {
+            label: "Candidate 4",
+            round: "Walkin 2nd (Manager Round)",
+            questions: [
+                "Tell about yourself",
+                "How do you manage team and devlopement work",
+                "Did you talk to Management and Client",
+                "Some Juniors are unable to perform even after told several times, how will you handle",
+                "Suppose there are 2 devlopers, 1 is good in fronend and other is good in backend, backend user wants to learn front end but project is critical how will you handle",
+                "What challenges you faced in development",
+                "What tool/development you did for which organization recognized you"
+            ]
+        }]
+    }, {
+        name: "HCL",
+        candidates: [{
+            label: "Candidate 1",
+            round: "1 Round",
+            questions: [
+                "All were basic questions only.. sharing rules batch class limitations one trigger scenario lwc basic questions"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "2 Managerial Round",
+            questions: [
+                "how do u manage a team what all skills u have notice period etc"
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "3 & 4 (Complex Rounds)",
+            questions: [
+                "it was client round with Google. They shown some ui and asked how I would design using lwc"
+            ]
+        }, {
+            label: "Candidate 4",
+            round: "round 1 (Total 7.5 Exp & 4.1 Exp in Salesforce)",
+            questions: [
+                "which settings are enforced by with sharing?",
+                "How to enforce object and field level settings?",
+                "Can we call a batch class from a trigger?",
+                "How to pass inputs to batch class from a trigger?",
+                "Explain the security model in salesforce?",
+                "I have a trigger on account object which is updating contact record, I have a trigger on contact object which is updating account reocrd, this is creating trigger recursion how will you handle it?",
+                "Which flow can be used before performing the dml?",
+                "What is the flow which is not dependent on DML?",
+                "Write a trigger to calculate the total amount on account record from amount field on contact record?",
+                "If you want to achieve the functionality of global search on an object's field, how can you do that?",
+                "Why do we have to write test classes and what is the test coverage required?"
+            ]
+        }]
+    }, {
+        name: "JPMC",
+        candidates: [{
+            label: "Candidate 1",
+            round: "L1 (3-15 years Exp)",
+            questions: [
+                "order of execution",
+                "best practices of lwc",
+                "how to get recordid in lwc",
+                "what are decorators in lwc",
+                "getting related records without using apex in lwc",
+                "way to get data from salesforce",
+                "connected app",
+                "what is callbackurl",
+                "namedcredential",
+                "integration pattern",
+                "jwt bearer",
+                "OAuth",
+                "rollup summary using trigger",
+                "what all exception you get name it",
+                "governor limit"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "L2",
+            questions: [
+                "write a LWC component which is configurable and reusable",
+                "suppose a third party is sending request to salesforce and in response you have to send Account Name , address. write a service for this requirement."
+            ]
+        }]
+    }, {
+        name: "Tech Mahindra",
+        candidates: [{
+            label: "Candidate 1",
+            round: "L1",
+            questions: [
+                "1) salesforce Experience?",
+                "2) what is one cool thing you can teach me in salesfoce?",
+                "3) what cloud have you worked on?",
+                "4) what is service cloud?",
+                "5) Assinment rule that assigns cases to a queue,if the case is manually assigned from queue to specific user.",
+                "6) what happens if the user belongs to same queue in the assignment rule? will the assignment runs again?",
+                "7) Record is already assigned based on assignment rule, due to changes in business priorities record needs to be reassigned. what options are available and what are potential implications of the reassignment?",
+                "8) sales cloud process lead conversion process?",
+                "9) field called productname on lead and same field on opportunity, when lead created can we copy product name to opportunity? how can you do that?",
+                "10) so there is a setting in lead object ( lead field mapping, by using Map Lead Fields on Lead(Fields&Relations))",
+                "11) Order of execution? validation on lead object field called quantity if quantity",
+                "12) confident on apex rate yourself?",
+                "13) best pratices for write triggers?",
+                "14) Batch classes? how did you write test class for Batch class?",
+                "15) show me an example that uses if condition on checking null values. and asked me how to check if it has(null, empty, or contains only whitespace)? [ Answer: IsEmpty()method. ]",
+                "16) Lwc and Javascript",
+                "17) when do you use === operator?",
+                "18) what is impreative apex call?",
+                "19) how do you do child to parent communication in lwc?",
+                "20) have you worked with Master-detail relationships?Can you do Rollup summary on Date field? [Ans:- Yes, We can do it simply with just MIN and Max.]"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "Tech",
+            questions: [
+                "A User has all the permissions on the object and it's records but still he/she is not able to search it in Global search, why?",
+                "How to call lwc through flow ? explain stepwise",
+                "How to disable a trigger for certain users?",
+                "custom settings vs metadata",
+                "Someone made changes in the backend, how will it come to UI without page refresh?",
+                "Custom settings vs metadata",
+                "Flow vs Trigger",
+                "Limitation of flows",
+                "SQL 101 error, even when i am following all the best practices. what could be the reason?",
+                "what is lazy loading",
+                "Trigger: Rollup summary",
+                "Sysconus and asys",
+                "sharing rule",
+                "DML exception",
+                "trigger----->Imagine you have a custom object named Invoice__c with a master-detail relationship to the Account object. Each invoice has a total amount, and you want to implement a trigger that automatically updates the Account's total invoice amount whenever a new invoice is created, updated, or deleted. The trigger should handle bulk transactions efficiently and accurately maintain the total amount for each Account."
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "Technical Round (2.5 YOE)",
+            questions: [
+                "Explain your project. Explain your day-to-day activities.",
+                "Have you worked on any async Apex ?",
+                "Explain interfaces used in Batch apex. Database.stateful Is used for ?",
+                "What are diff methods of Async Apex?",
+                "Why we need schedulable and Queueable apex classes ?",
+                "Have you worked on Integration ? Explain It.",
+                "What are HTTP methods ?",
+                "How we can send content type in a callout ?",
+                "How you handle Exceptions ?",
+                "Asked some Trigger scenarios – How you will append some data in Email field of object on insertion/updation ? Do we have to do update DML in the before trigger ?",
+                "Explain approach to show no. of contacts on the Account object, number of related contacts on account.",
+                "Explain flow approach , how you will create flow and create records of an object based on User or Geography ? Which type of flow and how you achieve it?",
+                "What is diff btw Aura and LWC?",
+                "When we use cacheable = true ?",
+                "Explain connectedCallback ?",
+                "What are diff btw connectedCallback and RenderedCallback ?",
+                "If we have created a lwc component and deployed it successfully but still that component is not available for use in Org. What can be reason behind it ?"
+            ]
+        }, {
+            label: "Candidate 4",
+            round: "L2 Round (2.5 YOE)",
+            questions: [
+                "Explain your project and Business requirement of your client. Explain roles and responsibilities.",
+                "Have you worked on Sales Cloud ?",
+                "How many Custom objects you have in your project? Major features that are used.",
+                "How you are using Einstein Bots in your project.",
+                "Can you explain Entitlements ?",
+                "Diff btw Email2case and Web2Case.",
+                "Escalation Rules.",
+                "Auto-response rules.",
+                "Diff btw Role and Profile.",
+                "Explain Record level security features.",
+                "Scenario – Doing one story, have to do POC. Some changes client has asked in 2 days, How you will buyout time from him, maybe you need 4-5 days for it.",
+                "Explain diff types of relationships in Salesforce.",
+                "Have you worked on any AppExchange products."
+            ]
+        }, {
+            label: "Candidate 5",
+            round: "Technical Round",
+            questions: [
+                "1. Introduction",
+                "2. How to override OWD access.",
+                "3. What are different types of sharing rules available",
+                "4. What all access we can give using Sharing rules.",
+                "5. Can you extend owd access through profile and permission set.",
+                "6. If OWD of account is private, and in profile level for account we have given view all and modify all. The user who has that particular profile will able to delete account record created by some other user?",
+                "7. How to bypass trigger for specific list of users.8. How to bypass trigger when uploading data with dataloader.",
+                "9. difference between custom setting and custom metadata.",
+                "10. What is SOQL 101 error.",
+                "11. While executing test class you are getting SOQL 101 wrror. How you will resolve it.",
+                "12. Expalin Async Apex.",
+                "13. Can you call another batch from execute method.",
+                "14. can you call from finish method.",
+                "15. Can we call HTTP callout from execute method?",
+                "16. Explain any component you build in LWC.",
+                "17. When will connected and rendered callback run.",
+                "18. You have parent and child. Tell in order parents and child connected callback and rendered callback which execute first.",
+                "19. When use wire and imperative method.",
+                "20. There is a function written in child and there is button in parent . When you click on button written in parent it should execute the function written in child.",
+                "21. On account object we have field called number of contact. On creation of account the number of contact should be updated with the number of contact in the account",
+                "22. When we use Isblank and IsNull.",
+                "23. How do you route cases based on locations."
+            ]
+        }, {
+            label: "Candidate 6",
+            round: "Techno Managerial Round",
+            questions: [
+                "1. Brief about you and projects you are working on",
+                "2. In Opportunity Object and user is having edit access on opportunity in Profile level and OWD for opportunity is Public Read Only. What all record user will able to make changes.",
+                "3. Which scenario custom permission come handy in Salesforce.",
+                "4. There is opportunity record being updated like before and after update. In which of these context wither before or after the record in the trigger context will become read only. Which means you can't make any changes to the record with the trigger context.",
+                "5. Can you tell me example where you can not use flow and you have gone with Apex.",
+                "6. What kind of collection are supported in flows.",
+                "7. In batch we have querylocator and iterable. When to use which one?",
+                "8. If you are making callout from Salesforce in external system in different system. Any you have to make callout one after the other. Means first in one system then on other. How can we do that.",
+                "9. Can we communication between flow and LWC.",
+                "10. Can you share a business scenario where you worked on Integration."
+            ]
+        }]
+    }, {
+        name: "360 Degree Technology",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech",
+            questions: [
+                "Do you use any other tool than changeset and VS Code for deployment.",
+                "From where the data was coming to property object. campaign ,lead ,web to lead",
+                "Have you been on client call like one on one call with client",
+                "Do you have exprience with web services. What is web services.",
+                "What is the difference between future and queable.",
+                "Scenario: Account should have only 2 contacts. How can we achieve it.",
+                "Can we create Rollup between account & contact.",
+                "What will execute first custom validation or before trigger.",
+                "Difference between system validation and custom validation.",
+                "We have reached the maximum limit of field creation for account obj then what can we do ?",
+                "What is the difference between freezing the user and deactivating the user.",
+                "What are field sets. FieldSet is defined as a grouping field.Adding fields, removing and reorder fields can be possible only with FieldSets only.",
+                "What is the relationship between account and opportunity",
+                "So how can we create rolloup",
+                "Case can be closed only when the related contact has email id. How can we achieve it.",
+                "We have object hierarchy, Account -> opportunity ->& grand child obj. I want number of grand child records in account record. How can I achieve it"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "Tech",
+            questions: [
+                "Explain about your project and whatever worked you have done.",
+                "Write a query to get the Accounts having contacts more than 3",
+                "Explain batch, how many times methods will execute, what is stateful, use of stateful.",
+                "how to do callout from the batch.",
+                "future methods and it uses, can we call future from and future from batch.",
+                "Queueable apex, can we call queueable from future and from batch",
+                "schedulable apex and use of schedulable apex, how to schedule a class.",
+                "Write a trigger on Account insertion whenever an account inserted there is a field Number of employee, we need to create that much contacts according to that value related to that account. Note: Don't use nested for loop.",
+                "Write a trigger, We have a object A and we two record type on that object RecordType1 and RecordType2. Whenever record insert of RecordType1 then create the same of RecordType2 and whenever record insert of RecordType2 then create the same of RecordType1. Records should be in sync for both the record type.",
+                "LWC lifecycle hooks.",
+                "Communication b/w parent to child and child to parent. how to do communicate b/w unrelated LWC components.",
+                "Can we pass data from LWC to VF and AURA using LMS.",
+                "Why we use Cacheable = true.",
+                "LWC : On a button click we need to create a object record without using apex. How to acheive.",
+                "Integration related questions. Which integration you have done and how.",
+                "Let say we have a variable name = 'ravi', need to find the occurance of each character using JS."
+            ]
+        }]
+    }, {
+        name: "KPMG",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Technical",
+            questions: [
+                "1. Introduction",
+                "2. What is your take on Security model on Salesforce",
+                "3. If OWD is private, If I create a record and I want to give access to other user but he is not a owner. How can we do that.",
+                "4. While creating a permission is Salesforce license is required?",
+                "5. How to iterate loop in LWC",
+                "6. Write a trigger, for a account we have field number of contact. We have to show number of contact in account field.",
+                "7. There are 2 LWC component not in the same DOM. How can we communicate between them.",
+                "8. Third party system is sending 10 fields and other day they said we have to send one more field and it continues. How can we achieve this without effecting the code.",
+                "9. Deployment process you worked on.",
+                "10. The trigger has 3 queries first one is returning 30k records, second one returning 20k records and third one returning 10k records will it be cause any error or the transaction gets successful",
+                "11. You are tasked with creating a trigger that automatically updates the account's rating field based on total number of opportunities associated with an Account. Following should be the update : <3 - cold 3 to 5 - Warm >5 - Hot",
+                "12. Authentication vs Authorization"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "Managerial",
+            questions: [
+                "1. Intro",
+                "2. Is there any situation where yiu though you can do with configuration but late on you need customization.",
+                "3. Which domain yiu have worked on.",
+                "4. Give your details on project",
+                "5. Challenges you got in your project",
+                "6. Why exactly you are looking for a change.",
+                "7. What are all clouds you have worked on.. What are different clouds you know. Explain few.",
+                "8. Are you aware of omni script features",
+                "9. How to get up to date with new Salesforce features and release",
+                "10. What are your hobbies"
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "Veeva CRM",
+            questions: [
+                "explain your current project and role and responsibilites (as i worked on veeva crm question was asked related to that)",
+                "2) what is mccp",
+                "3) what is data change request ( asked some more questions in that)",
+                "4) what is global account search",
+                "5) how the sales rep update mccp once he completed his task",
+                "6) how accounts are loaded into user territory",
+                "7) what is encrypted in integration",
+                "8) what is header and use of it in integration while making a callout",
+                "9) what are the modules you worked in veeva?"
+            ]
+        }, {
+            label: "Candidate 4",
+            round: "Technical (3 YOE)",
+            questions: [
+                "1- Introduction - project journey , skills etc.",
+                "2- Discussed about my current project , how and what exactly the entire flow and stuff in great detail and a lot of cross questions on that",
+                "3- Asked about my best skill and then asked how using in the project",
+                "4- User A and B have same profile I want user B to have 1 less permission from the other users of the same profile what would be the approach",
+                "5- what is the advantage of LDS",
+                "6 - Security model of Salesforce",
+                "7- Decorators in LWC",
+                "8- What is the use of Record Types",
+                "9- What are the tools you use for deployment",
+                "10 - How do you practice Agile"
+            ]
+        }, {
+            label: "Candidate 5",
+            round: "Technical (3 YOE)",
+            questions: [
+                "1- Introduction - project journey , skills etc.",
+                "2- Discussed about my current project , how and what exactly the entire flow and stuff in great detail and a lot of cross questions on that",
+                "3- Asked about my best skill and then asked how using in the project",
+                "4- User A and B have same profile I want user B to have 1 less permission from the other users of the same profile what would be the approach",
+                "5- what is the advantage of LDS",
+                "6 - Security model of Salesforce",
+                "7- Decorators in LWC",
+                "8- What is the use of Record Types",
+                "9- What are the tools you use for deployment",
+                "10 - How do you practice Agile",
+                "11. Trigger scenario-->> Account - Contact Standard Relationship. Fields Account - Primary Contact Phone (Text) field Contact - Is Primary Contact (Checkbox) field An account can not have more than 1 primary contact. Whenever a new contact created as primary contact, update account with Phone field and make other contacts of the account none primary"
+            ]
+        }, {
+            label: "Candidate 6",
+            round: "Technical (3 YOE)",
+            questions: [
+                "1.Introduction",
+                "2.Stopped me in middle and asked me",
+                "3.What is your project about",
+                "4.How ur project works",
+                "5.What exactly u have done in ur project and All proj related questions",
+                "6. In apex: Instantiate the map with account is as key and related contacts as a list to it and then how do u add elements into that ?",
+                "7.What are life cycle hooks and why it is important",
+                "8.What are decorators and uses",
+                "9.Have u worked on any lwc component and explain me about it",
+                "10.Trigger : depends on the no u enter on the account field, those many contacts needs to be associated",
+                "11.Also in data table lwc component if I deleted one record I am still able to see that record why?",
+                "12.How u get ur requirements?",
+                "13.Who will assign and how the flow is",
+                "14.How is ur deployment works ?"
+            ]
+        }, {
+            label: "Candidate 7",
+            round: "R2 (3 YOE)",
+            questions: [
+                "1- Intro",
+                "2- Rate yourself in configuration and where have you worked in configuration",
+                "3- Give examples from project for configuration",
+                "4- Flows example that your created in project",
+                "5- Workflow Vs Flows how do you make a decision which is to be used",
+                "6- Test classes why they are important ? He was looking for specific reason apart from initial testing",
+                "7- LDS and some portion of DevOps"
+            ]
+        }, {
+            label: "Candidate 8",
+            round: "Tech (3.4 YOE)",
+            questions: [
+                "1. how to give access to external and internal user in salesfore",
+                "2. how to run a piece of code in apex for a user have access to specific records",
+                "3. if user dont have access to a field and what will be the error he will get in trigger",
+                "4. on update what will be the error in trigger",
+                "5. trigger size is more than 10K, how we can handle update for that",
+                "7. how trigger works for 1000 records?",
+                "6. trigger runs in chunk check if there are seprate transactions",
+                "7. batch start method return type",
+                "8. difference between iterator and query locator",
+                "9. with sharing, without sharing, inherited sharing",
+                "10. In flow how to do update and create in same flow",
+                "11. what are the other things to check if it is isNew?",
+                "12. how to invoke apex from flow",
+                "13. why we cant have multiple invocable method in flow",
+                "14. why we return type of flow",
+                "15. LWC hooks",
+                "16. cacheble = true use and considrations",
+                "17. best practice of trigger",
+                "18. what if we have multiple trigger on same object",
+                "19. use of $ in wire method perameters",
+                "20. what if we are getting CPU timeout error how to handle that?",
+                "21. integration if external system is giving server timeout how to handle that?",
+                "22. integration first considration when we want to make callout?"
+            ]
+        }]
+    }, {
+        name: "NTT Data",
+        candidates: [{
+            label: "Candidate 1",
+            round: "L1 (3 years)",
+            questions: [
+                "1. Introduce yourself",
+                "2. Experience in integration or Aura explain what you worked on?",
+                "3. Any recent development use-case in LWC that you worked on?",
+                "4. Can we make a callout from trigger?",
+                "5. Lifecycle of LWC",
+                "6. There is a field called discount on opportunity, manager should be able to edit that field, his subordinate should be able to only read it, Other than permission sets and field level security (dynamic page/ layouts) how can we accomplish that ?",
+                "7. Why do we need trigger framework?",
+                "8. Have you worked on batch, Queueable and future (why do we need asynchronous apex)?",
+                "9. What are governor limits?",
+                "10. What is multi tenant architecture?",
+                "11. How to keep track of records processed in batch job, explain the logic --> AsyncApexJob",
+                "12. In which trigger context we can use both newMap and OldMap?",
+                "13. Lets say I am inserting a record and the current user don't have access to insert 1. what is the error we get --- Insuffcient privileges error 2. how can we resolve it -debug obj level and record lebel permissions",
+                "14. Write a rollup summery trigger to show number of opportunities on account 1. Explain the logic after writing"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "L2",
+            questions: [
+                "1) How to call lwc from flow",
+                "2) what is database.savepoint",
+                "3) I have parent A which has B &C childs. How to communuicate between B&C- Is there any way it can communicate without parent",
+                "4) I want to implement multi language in my lwc, how can i achieve this -->Custom Labels and Salesforce's built-in translation workbench",
+                "5) I have a search bar and below it I have a custom picklist which will have fields like Name, Department etc. Based on my selection data from Contact should be displayed",
+                "6) In order object I have a status picklist. I need to know the time the order is in each status --> create a custom object to track",
+                "7) What all ways are there to get data without writing apex",
+                "8) best practices of LWC",
+                "9) How we load data in salesforce from client---what logic is implemented",
+                "10) bulk api",
+                "11) Named credentials",
+                "12) What is web service",
+                "13) Financial service cloud questions",
+                "14) Error handling in apex",
+                "15) external css and js files- how can we access this in lwc",
+                "16) Code coverage decreased when deployed to production, what can be the reason",
+                "17) How to do callout from LWC",
+                "18) Where the test data is stored which we create in test class",
+                "19) what is the path for getting records from salesforce without code",
+                "20) What are dynamic reports",
+                "21) How to do callout from lwc"
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "L1",
+            questions: [
+                "Tell us about your project.",
+                "I have an account with the lookup field to user object, now whichever user is selected through this field should have read and edit access on the account record and its related contacts and opportunities. How can we do this?",
+                "Write an SOQL query get the role of the user. -->SELECT UserRole.Name FROM User WHERE Id = :userId]",
+                "Asked to write a query to get the roles which are not assigned to any user, where the parent object and user is the child. select id, name from userRole where id not in (select userRoleid from user) --> SELECT Id, Name FROM UserRole WHERE Id NOT IN (SELECT UserRoleId FROM User)",
+                "Can you explain how record sharing works in salesforce?",
+                "What is the order of execution can you explain?",
+                "Write a trigger: There is potential_buyer field in contact, which is a check box, if for an account if this checkbox is checked for its related contact the user should not be able to delete the account record.",
+                "What is asynchronous apex?",
+                "Asked a question on database.stateful"
+            ]
+        }, {
+            label: "Candidate 4",
+            round: "L2 (22/04/2024)",
+            questions: [
+                "There is an apex method and in this apex method i am using upsert statement and I want to process 10 to 15k records – how can I handle this? - I said it will give exception",
+                "How will you handle this exception?",
+                "What are the types of integration frameworks?",
+                "I am doing a callback to an application, now I want to test this callback in my test method, how can I do that?",
+                "How will you handle the trigger recursion?",
+                "What is database.savepoint? What is the use case?",
+                "What are the types of lightning flows?",
+                "What are auto launched flows? Where do you use them?",
+                "How do you choose to go to apex or to got to flow or to go to async apex like batch?",
+                "What are the types of lightning flows?",
+                "Write an soql query to get the account records without any contacts?",
+                "Asked questions on parent to child communication and child to parent communication.",
+                "Asked about decorators.",
+                "Asked to write LWC code to display data in lightning data table.",
+                "If I have a LWC component launched through quick action, it is no record page how will i get the recordid dynamically into my LWC component."
+            ]
+        }, {
+            label: "Candidate 5",
+            round: "L1",
+            questions: [
+                "1. What is semi-join and anti-join in SOQL?",
+                "2. What is Grant_Type in OAUTH 2.0?",
+                "3. What is cacheable=true in @wire?",
+                "4. What is the difference between Constructor and ConnectedCallbak() in LWC?",
+                "5. Can we call Future from Queable?",
+                "6. Can future call another future?",
+                "7. How to avoid Mixed DML error?",
+                "8. A and B are parent to C(juction object). A is public Read only, B is Private. So what C will be?",
+                "9. Difference between Before update and after update?",
+                "10. How to avoid Row-Lock error in Apex?",
+                "11. Can we call Batch apex from batch apex and how?",
+                "12. What are all details we store in Named credential? --> Endpoint URL, Authentication Parameters: user name , pass ,",
+                "13. Can we create related contact record on account trigger in before context?"
+            ]
+        }, {
+            label: "Candidate 6",
+            round: "L1 (0 - 1 YOE)",
+            questions: [
+                "1. Introduce yourself.",
+                "2. What is event bubble and event capture in JS?",
+                "3. Can you describe the process you used to deploy your project in Salesforce? i said using community cloud..",
+                "4. If Community Cloud were not available, how would you deploy your project in Salesforce?",
+                "5. What is anti join and semi join?",
+                "6. Let's say there is a College object and a Student object. I want to create a report on both objects, including all the fields. How will you do this?",
+                "7. What is difference between LWC, Aura and visualForce pages?",
+                "8. What could be the reasons for encountering an error when converting a master-detail relationship into a lookup relationship?",
+                "10. How can you send data from a Lightning Web Component (LWC) to an Aura component using navigation?",
+                "11. What is difference between deactivating user and freezing user?"
+            ]
+        }, {
+            label: "Candidate 7",
+            round: "L2 (5 years)",
+            questions: [
+                "1 . Difference btw master and look up .",
+                "2.custom obj position - how do you provide access to object and ways to share records",
+                "3. Flow with 80 get records and in the same flow apex class invoking 80 soql - will it did governor limits (Ans :select option use differente transaction in flow )",
+                "4. types of flows and aware of flow orchestration",
+                "5. scheduled trigger flow",
+                "6. diff btw future and quebale",
+                "7. Lwc - how to call flow from Lwc",
+                "8. how to track if the flow invoked from Lwc failed or success",
+                "9. why use wire and difference with imperative",
+                "10. one use case in Lwc - I need to load account table while loading the table udpate the status field as draft and active is true - how will you achieve",
+                "11. finally one trigger show error message if more than one active contact in account",
+                "12.What is junction object"
+            ]
+        }]
+    }, {
+        name: "IBM",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech",
+            questions: [
+                "Roll up summary field",
+                "can we create sum on role up summary feild",
+                "field type of roll up summary",
+                "can we include LWC in standard layout",
+                "types of decorator",
+                "can you tell me latest work done in LWC",
+                "What is LDS",
+                "permission set V/S profile",
+                "IF a manager is there and he can't see their junior record what is issue",
+                "what difficullt task you have done in Apex",
+                "what is best practice should we follow in apex",
+                "have you work on deployment",
+                "have you work on integration",
+                "did you guide any junior",
+                "how to do debugging in LWC"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "Tech (3.5 YOE)",
+            questions: [
+                "1. There are few accounts and opportunities, in batch class nedd to process those account's opportunity by calculating few fileds and send a notification to the owner. Asked to design the batch class.",
+                "2. Batch calss methods are example of opps overriding/overloading concept?",
+                "3. Asked about GenAI and Predictive AI?",
+                "4. Gave one scenario from sales cloud and asked for design(There are two products Andriod/IOS. Need to design the system srating from Lead. They need a customer self service portal too. Mainly asked for Order management.",
+                "5. Asked about SSO setting for custom application. Asked me about the certificate, what is the use and all kind of questions.",
+                "6. Asked about Rest API call out. Need o send data from salesforce(How you will design and what are all configuration you will do)",
+                "7. LWC vs Aura?",
+                "8. Is opportunity creation from Lead conversion process is optional or mandatory? And justify.",
+                "9. Asked about Einstein.",
+                "10. Asked about Manual sharing and what will happen if owner changes. Why the access will be revoked?",
+                "11. There is one master detail relationship. User A is having access of master record but don't have access to child. What is your approach to look into this issue?",
+                "12. Asked about the community and it's licenses.",
+                "13. Asked about the named credential and it's authentication options?"
+            ]
+        }]
+    }, {
+        name: "ZScaler",
+        candidates: [{
+            label: "Candidate 1",
+            round: "L1-Technical",
+            questions: [
+                "- Intro and understanding of current project.",
+                "- I have a requirement to show a Text on top of the detail page on update of Account record, what are the ways that i can achieve this.",
+                "- We have a approval process, if Manager rejects the record, manager needs to fill some details on the record page if not filled we need to throw an error, how can we achieve this.",
+                "- we have a batch class which does some operations on opportunities, opportunity has trigger which in turn updates the account records, on account we have trigger which does some operations by calling a future method, will this transaction runs successfully or not.",
+                "- I have a batch class with sharing keyword and im calling a apex class without sharing keyword from batch, how does the sharing applicable here.",
+                "- I have a class with sharing keyword and im calling a class which doesn't have any keyword, how does the sharing applicable in this case.",
+                "- Trigger scenario : Two related(lookup) Custom Objects SalesOrder(SO__c) and SalesOrder_LineItems(SOLI__c).Restrict creation of more than 10 SalesOrder_LineItems(SOLI__c), per SalesOrder(SO__c), per User",
+                "- I want to update 1million records without using batch apex, how can i achieve this.",
+                "- we have 2 wire methods , for 1 of the wire method we are getting variable undefined error, what could be the reason.",
+                "- can we control the order of execution on wire methods?",
+                "- Authentication and authorization difference.",
+                "- what is SSO.",
+                "- how we achieved integration in our project. latest integration that I have done in my project."
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "L2-Technical",
+            questions: [
+                "- More questions on our Project. like Trigger framework, integration pattern, flow best practices, error handling, handling recursive and bypassing mechanism.",
+                "- we have Developers,Lead and Manager in Role Hierarchy, now there are few records created by Manager should be visible(read only) to lead, how can i achieve this.",
+                "- Trigger : whenever a new contact is created, create the user with contact details and have contactId on newly created user with field call contactId__c.",
+                "- We have a custom object records which are more than 50millions, We wanted to update the records with some criteria, what is the best way that we can achieve.",
+                "- Eventhough we follow all the best practices above and still we are getting more than 50million records, then how can i update the records.",
+                "- we have 2 components , which are parent and child, we have more variables on parent object which are updated frequently, those variable data should be passed to child components, in how many ways we can pass the data to child component.",
+                "- what is lwc:ref",
+                "- what is the use of renderedCallback in lwc lifecycle hook.",
+                "- we have written console.log somewhere in js of parent and child components. I inspect the component on webpage, I could see A B C is printed on console one after another. and also I could see C B A is printed on console one after another, can u explain where this console.logs are written.",
+                "- How can we pass data from grand-child component to grand-parent component. in how many ways.",
+                "- what is the difference in lwc:if and slds-hide.",
+                "- Types of Authentications, what type of authentication we used in current project and how we used."
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "L3-Technical",
+            questions: [
+                "- basic intro not more than 2mins, More about our current Project.",
+                "- what are the ways we share records.",
+                "- Custom Settings and Custom Metadata differences.",
+                "- Trigger framework and best practices.",
+                "- Test factory and best practices.",
+                "- How can we write test class for 2 apis in same class, which response of first api is send as a header to subsequent api.",
+                "- I have a component on Account record, which displays related opportunities along with account name, now if i update the account name, same name should get reflected on lwc component also (without refreshing the page), how can i achieve this.",
+                "- We have a requirement on Account record, before creating a new record form UI , we need to hit the Api and get the response, if we get successfull response then save the record, else donot save, how can we achieve this.",
+                "- We are mainting refresh counter on community page, whenever a user refresh the page we need to increment the counter by 1, and when user re-opens the page newly the counter should increment by 1 with old value. let say counter is 5 and user closes the window and re-opens the page newly then the counter should get increment to 6 not 1.",
+                "- for the above question I asked what is the use of this refresh counter, he said just for understanding purpose we are asking this kind of questions, there is no such requirements we build in real time.",
+                "- we have a requirement to have a open community page, where user opens the page and search for a product , then related search results should get visible on the page in a tabuler format, how can we achieve this and what are the conditions we handle in lwc code also consider we have more products on search results how to handle them.",
+                "- we have a requirement to delete the leads which doesnt have any updates on lead stage field from past 60days, how can we achieve this.",
+                "- recent integration we have done in our project. use of External credentials.",
+                "- difference in REST and SOAP.",
+                "- Limitations of Platform Events.",
+                "- explain about case management and how can we restrict auto escalations not to fire when the case due date is on holidays.",
+                "- if we create case manually then what happens to Auto-Response rules. will they fire or not."
+            ]
+        }]
+    }, {
+        name: "Coforge",
+        candidates: [{
+            label: "Candidate 1",
+            round: "L1",
+            questions: [
+                "- Intro and few questions on Project",
+                "- How a Entitlement is created",
+                "- sObject Schema of Sales Cloud",
+                "- Sharing and Secutiry types and importance in salesforce",
+                "- use of With , without and inherited sharing in Apex",
+                "- Trigger: Increment the NoOfContacts count to a Account at account.field when a contact is created or updated or delete or undelete",
+                "- Expalin Integration done in current project. what grant type is used",
+                "- Platform event and CDC difference",
+                "- Parnet and Child Communication in LWC",
+                "- Un-Related Component Communication in LWC",
+                "- basic syntax to fire custom event",
+                "- How can we get a value back from Apex to Flow without creating a variable in flow."
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "L2",
+            questions: [
+                "- Intro and Trigger Pattern followed in Current Project",
+                "- how many ways we can create a record in salesforce",
+                "- what if a class with sharing is called from without sharing class",
+                "- what is inherited sharing",
+                "- difference in Sync and Async Transcation",
+                "- what is Row Lock Error, how to resolve",
+                "- Trigger to count opportunityLineItem whose price is > 50,000 and display the count on Account",
+                "- we have opportunty in salesforce and order creation in ERP system, once the opportunity is closed won then a order record should get create, how can we achieve this.",
+                "- we have a custom object records in 2 systems salesforce and erp, so whenever a CRUD operations perfrom on this custom object then the data should also sync with erp system , how to achieve this.",
+                "- write a LWC to get all the account record and show it to the user. consider all the best scenarios (Datatable, lazyloading, make sure about enable-infinite-loading issues like making server calls even though all the data is already fetched on to UI)."
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "Round 1 (3+ YOE)",
+            questions: [
+                "1. Introduce Yourself",
+                "2. What is security and sharing model in Salesforce?",
+                "3. User is owner of the record but manual sharing button is not visible, What is the reason behind it?",
+                "4. What is Batch Apex?",
+                "5. Can we call one batch from another?",
+                "6. Can we make callout from Batch?",
+                "7. How we can schedule a batch?",
+                "8. What is platform event? How we will make dml in it?",
+                "9. Howmany types of reports?",
+                "10. What is dynamic Dashboard?",
+                "11. What is connectedCallback and wire? What is the difference between them?",
+                "12. Can we call a method in lwc which is AuraEnabled but not cacheble = true?"
+            ]
+        }, {
+            label: "Candidate 4",
+            round: "Technical 1 (3 years)",
+            questions: [
+                "-Introduction",
+                "-Recent development done in experience cloud, explain",
+                "-How did you access the lastpasswordchangedate field for the user in Apex",
+                "-When to use custom settings and custom metadata, explain from your project",
+                "-How did you develop MFA Reset functionality for business users, explain from scratch",
+                "-Connected app",
+                "-Named credentials",
+                "-Auth provider",
+                "-Data security",
+                "-Junction object",
+                "-3 objects - Product pricebook, pricebook entry, which one is junction object can you explain the schema",
+                "-Report type",
+                "-Apex email service",
+                "-Can we do call-out from trigger",
+                "-Why can't we perform call-out without using future method",
+                "-Batch apex methods",
+                "-Can we remove the finish method from Batch Apex",
+                "-Sales cloud process",
+                "-Page layout we have 2 new different buttons, X and Y, when the case stage changes to processed, how can we disable the 2 buttons",
+                "-2 new picklist values have been added recently, while creating the new records, picklist values are not available, what could be the reason",
+                "-Visualforce page is loading very slow and performance is degrading how can we optimise the performance",
+                "-How can we pass the parameter to the visualforce page",
+                "-Wire",
+                "-Different decorators",
+                "-Recent development done in lwc",
+                "-How can we show the user input in the record detail page",
+                "-In lwc which gets executed first connected callback or @wire property or function"
+            ]
+        }, {
+            label: "Candidate 5",
+            round: "Round 1 and 2",
+            questions: [
+                "1. Introduction",
+                "2. What types of projects have you worked on along with roles and responsibilities",
+                "3. How can we implement Object level and field-level security in the apex",
+                "4. With and without sharing differences.",
+                "5. Write a trigger to show the total sum of related opportunities on the Account.",
+                "6. What we cannot call the future from batch",
+                "7. How to schedule a batch class once without using a schedulable class.",
+                "8. Decorators and when to use when.",
+                "9. What is LMS",
+                "10. Parent to child and Child to parent communication in LWC",
+                "11. Difference Between Meta Data Types, Custom Settings, and Custom Objects.",
+                "12. What is a Junction Object and how to identify which is the primary parent to a junction object",
+                "13. How manual sharing works and how to enable that.",
+                "14. What is the relationship between Pricebook and Product and how are they connected? Also, explain how opportunity and product are related.",
+                "15. What is a Guest user in the community cloud?",
+                "16. Convert a List of Contact to Map of AccountId and Contact (List<Contact> conlist =[Select Id, AccountId from Contact] ->> Map<Id,List<Contact>> AccConMap = new Map<Id,List<Contact>>",
+                "17. How can I convert the sObjet to primitive type so that I can pass those parameters in the future method?",
+                "18. Write a code to display data in the data table. Also, create a button with a plus icon where when I click on that plus icon it inserts a blank row in the table with the highlighted rows where a user has to enter data and he can then save that.",
+                "19. How many times trigger execute on an Upsert event.",
+                "20. How many times trigger execute on an Merge event.",
+                "21. What is Lazy loading and how it is implemented.",
+                "22. Wire vs Imperative call.",
+                "23 .What is System.FinalException: Record is read-only and how to resolve this error."
+            ]
+        }]
+    }, {
+        name: "Nagarro",
+        candidates: [{
+            label: "Candidate 1",
+            round: "L1 Technical",
+            questions: [
+                "-Order of execution",
+                "-Queueable apex advantages",
+                "-Best practices of test classes",
+                "-Custom implementation done in your project",
+                "-Lifecycle hooks",
+                "-Wire connected callback, wire - which one will be called first?",
+                "-How can you use static resource in Lwc",
+                "-How will you add the lwc component in the community page",
+                "-Security implementation done recently",
+                "-Lwc implementation done recently",
+                "-Can we launch lwc from the community portal",
+                "-Best practices of var let const variables",
+                "-There is a const variable...how can I use this directly in html ..is it possible?",
+                "When does the below error occurs and ways to resolve it?",
+                "-Too many DML statement",
+                "-CPU timeout",
+                "-Apex heap size too large"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "L2 Technical",
+            questions: [
+                "Case.contact__c (lookup to contact)",
+                "Contact.MultipleCase__c (Checkbox type, default to false)",
+                "Write a trigger in a bulkified manner whenever a case is inserted and the parent contact is associated with multiple cases then make the field MultipleCase__c to true",
+                "-2 LWC components not in direct relation but on the same record page. How will you communicate? Write the sample code? Before LMS, pub/sub was there, have you used it?",
+                "-How will communicate between parent and child component.",
+                "-There is a function in a child component sendemail() and I want to call that function in the parent component. How will you do that?",
+                "-There was future method earlier in Async apex, what were the limitations that Salesforce introduced Queueable apex",
+                "-write a use case code where you will use sObject type as parameters in Queueable apex",
+                "-Rest API Integration - explain complete flow. Write a sample code to make the call-out as well as web service class."
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "L3 Technical + Managerial",
+            questions: [
+                "-Lifecycle of your day at work - how you get your requirements - impact analysis, code reviewing",
+                "-Explain the deployment process in your project",
+                "-Challenges faced in your project",
+                "-Development related to community cloud",
+                "-Development related to Rest API integration",
+                "-Best practices of integration",
+                "-Salesforce apex best practices",
+                "-Test class best practices",
+                "-Explain LWR framework",
+                "-Explain Visualforce framework",
+                "-Development related to asynchronous apex/ -Sales Cloud",
+                "-Sales cloud stage process",
+                "-Flows - screen flows",
+                "-Latest Winter'25 release features",
+                "-Why do you want to leave your current company",
+                "-Why do you want to join Nagarro"
+            ]
+        }]
+    }, {
+        name: "Persistent Systems",
+        candidates: [{
+            label: "Candidate 1",
+            round: "L1",
+            questions: [
+                "If we share records using sharing settings but if access is not given at profile level will manager be still able to see records of his/her reportees.",
+                "What needs to be done to sync calendar with outlook to salesforce using Einstein activity capture( since I told I used in project ) .",
+                "How can we share records among a public group which is having a hierarchy.",
+                "What are restriction rules in salesforce.",
+                "What are outbound messages in salesforce and when do we use it.",
+                "Integration patterns in salesforce.",
+                "Have you used any design pattern in project if yes explain.",
+                "What is Liskovs substitution principle.",
+                "How can we solve mixed dml error.",
+                "Have you faced field integrity exception if yes how you resolved it.",
+                "Write a rollup summary trigger for Account which has sum of amount of contact. ( cover all cases insert, update and delete )",
+                "How can call LWC inside a visualforce page.",
+                "Can we call LWC inside a flow?",
+                "Why do we use Scheduled path in a flow with before 3 days as offset ?",
+                "Write a code to fetch account record from external system using batch apex and update type field of Account to 'Industry'",
+                "Why do we use composite Api."
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "L2",
+            questions: [
+                "Explain current project",
+                "Write an lwc code to create a case record on click of a quick action button and display message using toast notification.",
+                "How can we capture multiple user input from event in lwc using dynamic object ?",
+                "Write a soql query to fetch all the contact which is not associated to an account.",
+                "Soql to find nth highest amount opportunity.",
+                "Write a code to implement pagination( just the algorithm)",
+                "Are you awared about dynamic soql query in apex if yes, write any example.",
+                "I have a map<id,map<id,List<Id>> , fetch me the list of Id without using map.get(key) method or without Interating over the map."
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "L1 (3 years)",
+            questions: [
+                "-Types of decorators",
+                "-Wire along with example",
+                "-When will the wire get called",
+                "-Lightning data table to show account and related count records",
+                "-Child to parent communication",
+                "-How to call one method after another",
+                "-How to show an error message in the UI through flow",
+                "-Soql to fetch a sum of the amount of opportunities",
+                "-External Id",
+                "-Connected app",
+                "-Named credentials",
+                "-Apex Sharing",
+                "-With sharing",
+                "-Trigger to validate if the user enters last name and email duplicate in the contact, throw an error"
+            ]
+        }, {
+            label: "Candidate 4",
+            round: "L2 (3 years)",
+            questions: [
+                "-Explain your project",
+                "-Tell me 2 scenarios from your project which you find difficult to resolve",
+                "-Can we perform DML statement in javascript",
+                "-LDS - Advantages and limitations",
+                "-LMS",
+                "-How can we get the record of the page placed in Lwc",
+                "-How to optimise the LWC - suppose it shows 10000 records",
+                "-How can we chain apex method after another",
+                "-Asynchronous operation in LWC",
+                "-With the click of an account button, show the account along with associated contact records. And then show the associated community user",
+                "-How to create community users... explain from your project",
+                "-Write a logic to create a account and then create contact, associate with account and then create community user and associate with contact",
+                "-Soql query to fetch the 2nd largest amount from opportunity",
+                "-Soql query to show the sum of all associated opportunities within an account",
+                "-Custom setting and custom metadata",
+                "-Custom metadata methods",
+                "-Can we fetch via SOQL query",
+                "-User is having read on profile and public read/write in owd, what access will user have",
+                "-User is having CRED on profile and Private on OWD, what access will user have",
+                "-OWD set to private and only read permission given on profile, how can user be able to see and edit all records",
+                "-User - immediate manager - senior manager ....if the user created record, don't show to immediate manager but it should be visible to senior manager",
+                "-Lwc to fetch the record in JS, perform DML operation and show the same in UI",
+                "-How can we restrict access to some LWC components for particular users",
+                "-How can show the component to community users",
+                "-Sales process explain",
+                "-During the lead conversion, is contact optional",
+                "-Example of standard junction object",
+                "-A B C D E - how will you communicate from E to A. A being the top parent followed by child",
+                "-Deployment model used in project - explain how CI/CD pipeline works"
+            ]
+        }]
+    }, {
+        name: "Twilio",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Round 1 (2.5 Yrs)",
+            questions: [
+                "1. Intro",
+                "2. Asked related to project.",
+                "3. Best pratices of triggers.",
+                "4. Change the the status of account, prospect to customer when opp is closed? and Explain?",
+                "5. What is recurrsive triggers and to avoid (he want to explain why Map of Ids, sets and Boolean property )",
+                "6. What is Asynchronous apex. Explain all types.",
+                "7. Explain Mixed DML error. how to prevent?",
+                "8. What is Apex CPU time out? How to fixed it?",
+                "9. Give code and asked to Explain(run/error)? public static void createAccount(String accName){ Account acc; acc.Name = accName; database.insert(acc, false); }",
+                "10. What is Database.insert and insert stmt.",
+                "11. Sample Code for callouts (Remote site setting,NC)",
+                "12. Sample Code for Webservice(What is @restResource?, Why we use global why not public?).(ConnectedApp)",
+                "13. Give Code trigger OpportunityHandler on Opportunity(before insert) for(Opportunity opp:trigger.new){ opp.Account.status == 'Customer'; opp.Customer_Description__c = 'Customer is New'; } 1. run/error 2. What type of error. 3. Explain the Code",
+                "14. In callout code, How to make authentication.",
+                "15. Exaplain Named Credential. If NameCred name is 'cred' how to use in code(in callouts).",
+                "16. Remote site Setting.",
+                "17. Explain Lifecycle hooks.",
+                "18. Decorators",
+                "19. Wire method and Imperative",
+                "20. Write a code take input as accountId, and fetch related all contact and show in datatable.",
+                "21. How to sort the datatable?",
+                "22. What is $,when passing parameter in wire.",
+                "23. SOQL 1. Find all the account who does not have related contact. 2. Find All contact which have same name & greater that twice.",
+                "24. LDS(Explain in details)",
+                "25. Suppose you are making a callout but due to some reasons it will failed what could be the reasons for failing?"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "Round 2 (2.5 Yrs)",
+            questions: [
+                "1. Intro",
+                "2. SOQl query for fetch those account whose billingCountry and ShippingCountry is same",
+                "3. How to Solve, Apex time out Limit in Production.",
+                "4. Project Related Ques."
+            ]
+        }]
+    }, {
+        name: "Brillio",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech (5 years)",
+            questions: [
+                "can we use url addressable in lwc without aura compoenent",
+                "dynamic LWC instantiation and GraphQL.",
+                "use case of Track decorator",
+                "Share objects and manual sharing scenarios",
+                "Shadow Dom Concept",
+                "Write a trigger which updates Location of Opportunity based on OwnerId if User location is updated?",
+                "Methods to communicate between two components in LWC?",
+                "Is remote site setting a must in case of Named Credentials?",
+                "Difference between Lightning Message Channel and Pub-Sub?",
+                "Ways of calling Apex class from LWC, and difference?",
+                "Life Hooks of LWC?"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "Client Interview",
+            questions: [
+                "Tell me abount yourself?",
+                "what is SSN configuation you did as per your resume?",
+                "how you configure the same?",
+                "what was identity provider in this configuration?",
+                "what will define the junction object record level access?",
+                "what if junction object one parent is deleted in master detial?",
+                "Can a user with update access on record and CRUD access on object delete a record without the ownership? owner is some other object?",
+                "Have you work on record trigger flows?",
+                "how can i sequence the order or reocrd trigger flow in salesforce for same object?",
+                "what is difference between trigger flow everytime a record is update to fullfil the criteria",
+                "how to handle error in reocrd trigger flow?",
+                "write a soql get the account who don't have any opportunity",
+                "how record trigger flow handle the bulk records? what will happen if there is a invokable method present in record trigger flow?",
+                "What are the trigger events and trigger context variable?",
+                "Write a trigger to update a custom field Total Opportunities on Account with the total number of related Opportunities every time an Opportunity is created or deleted.",
+                "How can we improve this code for trigger or any best practice that can be added in this code?",
+                "what are the complex lwc requirement you have worked on ?",
+                "how can i chain the multiple lds in lwc?",
+                "can we chain wire in lwc?"
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "Client Managerial Round",
+            questions: [
+                "Tell me about yourself.",
+                "What are the cloud or skillset you have",
+                "Experinece cloud sharing modal, sharing set",
+                "Salesforce Security modal",
+                "Governer limits, timeout error",
+                "what is uncommeted work pending error?",
+                "HTTP callout duration, will it halt the code execution?",
+                "what is continuation? have you implemented it anywhere?",
+                "what is callout defalult duration and can we extend it?",
+                "is timeout and callout duration are same and how salesforce count the both differently?",
+                "how can i refesh lwc data at an interal of 3 sec in a datatable?",
+                "who can i refreh the same datatable if something in changing in backend?",
+                "are you open for shift timings?",
+                "any other question you have?"
+            ]
+        }]
+    }, {
+        name: "Altimatrik (PayPal Client)",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech (5 yrs)",
+            questions: [
+                "Introduce yourself",
+                "Project related questions",
+                "Many to many relationship - what happens if parent got deleted",
+                "Senario related to apexsharing",
+                "Get Data - map of grandparent and grand child using soql and apex code",
+                "Trigger - before update context - explanantion",
+                "Trigger - after update - performing update operations on same record (read only mode in triggers) - explanantion",
+                "Trigger on senario where comes mixed dml exception - writting code",
+                "Soql queries on - Date literals, Aggregation Functions, inline queries",
+                "About communities and related to data security in communities (record sharing among cummunity users)",
+                "Asynchronous methods in SF - explainig about each of them with limits",
+                "Can we do asynchronous operations in record triggered flow in insert a record mode?",
+                "Dynamic Forms in Admin",
+                "Custom settings and custom metadata differences and when to use when",
+                "Integration - by using extenal objects use cases/senario",
+                "LWC - life cycle hooks, decorators (main differences bw each of them) and communication bw components",
+                "Which is called first wire or ConectedCalBack?",
+                "Handle errors in flows - record triggered flows & Screen flows",
+                "About interfaces, extends use cases, override, custom exceptions, static keyword, implements keyword in Apex"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "Client Interview",
+            questions: [
+                "tell me about yourself",
+                "are you good in lwc and what are the complex implementation you have done in lwc",
+                "write lwc for making a callout and from resp get data and show table on ui,on load columns are name, age, place",
+                "can we make callout from lwc without any apex",
+                "[{''name'':''Raj'',''age'':35,''place'':''Pune''},{''name'':''John'',''age'':30,''place'':''Delhi''},{''name'':''Meena'',''age'':27,''place'':''Chennai''}] use above data and sort the data in accending order of name without using any sort operation i.e write custom sort logic",
+                "what closure in js",
+                "what hoisting in js",
+                "what is promises in js",
+                "what is async await in js",
+                "what is slots and we use it",
+                "write query to get account name have contact without any email",
+                "what is batch apex and if i am facing record lock error in batch how i should resolve the same?",
+                "Trigger to calculate the time for which the order stayed in a particular stage Order Status Picklist: New, In progress, In Review, Waiting, Closed"
+            ]
+        }]
+    }, {
+        name: "Clear Tax",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Assignment",
+            questions: [
+                "Module 1: Apex Trigger (Account Management) - Develop an Apex trigger named AccountManagementTrigger that performs actions when an Account record is inserted or updated: Automatic Contact Creation: If Account Industry is 'Technology', automatically create a new Contact record. Ownership Assignment: Assign ownership of the Account record based on the Industry field.",
+                "Module 2: Asynchronous Processing (Future Method) - Implement a Future method (@future) named ProcessAccountAsync to perform asynchronous processing for Account records.",
+                "Module 3: Batch Apex (Data Processing) - Develop a Batch Apex class named AccountBatchProcessor to handle bulk processing of Account records.",
+                "Module 4: Integration (Callouts) - Integrate Salesforce with an external API using Apex callouts.",
+                "Module 5: Test Classes (Code Coverage) – Good to have (if time permits) - Create comprehensive test classes.",
+                "Module 6: Error Handling and Logging(How this can be cascaded) - Implement robust error handling and logging mechanisms.",
+                "Module 7: Dynamic Configuration (Custom Settings) – Good to have - Enhance the solution with dynamic configurations using Custom Settings or Custom Metadata Types.",
+                "Module 8: Performance Optimization – Good to have - Optimize Apex code for performance and scalability."
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "Round 2",
+            questions: [
+                "How to implemnet book my show in salesforce",
+                "how can i chek the same ticket bokking at same time",
+                "schema level implementation",
+                "ui implementation",
+                "how to proactively debug or get error"
+            ]
+        }]
+    }, {
+        name: "Cognizant",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Tech (5 years)",
+            questions: [
+                "1)how to call Rest API in Trigger",
+                "2)call batch from apex trigger?",
+                "3)I have two batch classes I want to use one for india and another for china, I want to caluculate population other details in the batch, so logic is same but only when I want to execute batch when we click on respective button of each country in lwc. I want to execute a batch for india and second for china. where is the way I can do this.",
+                "4)What is the use of queueable interface how we will use in trigger or any other classes?",
+                "5)what is the draw back of queueable apex?",
+                "6) life cycle of LWC cmp?",
+                "7)why we have super in constructer?",
+                "8)difference between constructer and connected call back?",
+                "9)LET VAR CONST uses of this keywords?",
+                "10) Promise in LWC?",
+                "11)There are 2 lwc cmps in Flexi page and in one cmp the customer selects the customer name then the whole details should be visible in another components, how will you do this? counter question are they related he said not related.",
+                "12) follow up question how will you do this?",
+                "13)how will you create lightning channel?",
+                "14)how will you send the value in message channel?",
+                "15)how will you do conditional rendering in lwc? write small code on this?",
+                "16)is it possible to show a dependent picklist in lwc ?how?",
+                "17)I want to communicate with aura, vfpage?",
+                "18)requirement on a record page me and you are working on same record page updated the value we should get notification should sent to another user as record get updated?",
+                "19)how you build custom notifications?",
+                "20) render in lwc?",
+                "21) what is EMP API? full form",
+                "22) how will we do lookup button in lwc?",
+                "23)what attribute you will use to show custom picklist value?",
+                "24)In lightning data table there are multiple check boxes we have selected now in multiple values we want to pass some other details like name , email, age etc., through a apex class in application in a app, how will you do that? for example: emp name age grade I have selected all this, I want to set all this values to apex how will you do this?how will I get selected ids,details.",
+                "25)If am embedded inline editing then in that case, if I have edited 5 or 6 records click on save I need to check if any field is empty in that or not?there is a field feedback I have updated in 4 records left 1 or more. I want validation through message this field is blank?",
+                "26)Lwc in flow how can I do?"
+            ]
+        }]
+    }, {
+        name: "Cummins",
+        candidates: [{
+            label: "Candidate 1",
+            round: "L1 (3+ YOE)",
+            questions: [
+                "- about project",
+                "- lwc component i have created in my project",
+                "- have I worked on LMS , explain",
+                "- if we have modify all access from object level and owd is private and there is no record level sharing , will the user able to see record",
+                "- difficulties that I face in my project",
+                "- queueable vs batch",
+                "- what I have done in integration, explain",
+                "- system setting vs system metadata",
+                "- what do I know about service cloud and experience cloud",
+                "- do I know copado",
+                "- have I worked on Aura"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "L2 (3+ YOE)",
+            questions: [
+                "- what do I know about deployment and CICD",
+                "- how do we troubleshoot error when we get in jenkins deployment",
+                "- trigger to insert a file whenever a workorder is created",
+                "- What have I done in LWC, in continuation to my answer I was asked can we make lwc lightning data table code generic for other object",
+                "- LMS",
+                "- what Have I implemented in Integration",
+                "- technical difficulties that I face in my project",
+                "- have I done data migration and what was the record count",
+                "- have I setup scratch org"
+            ]
+        }]
+    }, {
+        name: "Thomson Reuters",
+        candidates: [{
+            label: "Candidate 1",
+            round: "Technical (3.5)",
+            questions: [
+                "-Introduction,breif explination about project, Types cloud you have worked",
+                "-why we need Account, contact , opportunities, lead, what is the relationship between opportunity and contact, opportunity and product",
+                "-what is web to lead , email to lead",
+                "-Did you worked on commuity cloud",
+                "-write query to fetch external object",
+                "-How lead is created",
+                "-why we have closed won and closed lost, when we will use",
+                "-How did you do deployment",
+                "-what is Asycronous Apex, types",
+                "-Life cycle hooks",
+                "-How to fecth data in LWC",
+                "-What are decorators? why we need @track decorator",
+                "-What are roles, profile",
+                "-Difference between permission set and permission set group",
+                "-Explain security model in salesforce",
+                "-scenario related to security model",
+                "-what is your experience in integration, types of integration you know",
+                "-why we need named credential and Remote site setting, connected app",
+                "-what are governer limits we have in salesforce",
+                "-Trigger realated to rollup summary",
+                "-Access modifier, Why we need protected",
+                "-Apex code to reverse string"
+            ]
+        }, {
+            label: "Candidate 2",
+            round: "TechnoManagerial (3.5)",
+            questions: [
+                "-Introduction,breif explination about project",
+                "-Explain security model in salesforce",
+                "-what is Asycronous Apex, Batch apex syntax",
+                "-How did you handle team conflicts",
+                "-Agile Methodology",
+                "-Deployment tools to know",
+                "-Any componets you craeted in LWC, what is that?",
+                "-Integration you did",
+                "-Are you okay with Location.",
+                "Experience in Apex"
+            ]
+        }, {
+            label: "Candidate 3",
+            round: "Managerial (3.5)",
+            questions: [
+                "-Introduction",
+                "-Explain completely about projects you have worked on",
+                "-What kind of methology you followed in project",
+                "-How did you give estimation for ticktes",
+                "-what kind of qualities you expect from your colleuge",
+                "-Where do you see yourself in next 3 years",
+                "-Did you handle any junious",
+                "-Any training you conducted",
+                "-Why Thomson",
+                "-Why Non II to IT",
+                "-Why we need batch apex, whats the use of Database.statefull what is the exact use",
+                "-Why to want to switch",
+                "-How do you handle conflicts, how do you manage team."
+            ]
+        }]
+    }, {
+        name: "Kotak (SDE1/2)",
+        candidates: [{
+            label: "Candidate 1",
+            round: "BarRaiser (4-6 YOE)",
+            questions: [
+                "1) You have two custom objects in your Salesforce org, namely 'Project__c' and 'Task__c.' Each Project can have multiple related Tasks. Your task is to implement a synchronization process that automatically updates the Project's Status based on the related Tasks' statuses. Requirements: If all Tasks related to the Project have a Status of 'Completed,' the Project's Status should be set to 'Completed.' If any Task related to the Project has a Status of 'In Progress,' the Project's Status should be set to 'In Progress.' If all Tasks related to the Project have a Status of 'Not Started,' the Project's Status should be set to 'Not Started.' If there are no Tasks related to the Project, the Project's Status should be set to 'No Tasks.'",
+                "2) You have a custom object named 'Order__c,' which represents customer orders. There is a custom field 'Order_Status__c' with values like 'Pending,' 'Processing,' and 'Completed.' Your task is to implement a bulk update process that sets the 'Order_Status__c' field for a large number of Order records. Include retry mechanism for failed updates.",
+                "3) Difference between Custom Setting and Custom Metadata",
+                "4)Explain Sharing and Setting Model",
+                "5) When to use flows and When to use trigger",
+                "6) How to restrict user from logging during non business hours",
+                "7)How to process and work with Large Data Volume",
+                "8) When will you get error ' Cannot call batch apex'",
+                "9) Apex Best Practices",
+                "10) How to monitor system performance and which operations in system take more time."
+            ]
+        }]
+    }];
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  RENDER LOGIC
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    let currentIndex = 0;
+
+    const companyStrip = document.getElementById('companyStrip');
+    const candidatesContainer = document.getElementById('candidatesContainer');
+    const companyBadge = document.getElementById('companyBadge');
+    const progressText = document.getElementById('progressText');
+    const currentNum = document.getElementById('currentNum');
+    const totalNum = document.getElementById('totalNum');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function renderCompanyList() {
+        companyStrip.innerHTML = companyData.map((comp, idx) =>
+            `<button class="company-pill ${idx === currentIndex ? 'active' : ''}" data-index="${idx}">${comp.name}</button>`
+        ).join('');
+
+        // Attach click events
+        companyStrip.querySelectorAll('.company-pill').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.index, 10);
+                if (idx !== currentIndex) {
+                    currentIndex = idx;
+                    renderAll();
+                }
+            });
+        });
+    }
+
+    function renderCandidates() {
+        const data = companyData[currentIndex];
+        if (!data) return;
+
+        // update badge & progress
+        const totalQ = data.candidates.reduce((sum, c) => sum + c.questions.length, 0);
+        companyBadge.textContent = data.name;
+        progressText.textContent = `${currentIndex + 1} / ${companyData.length}`;
+        currentNum.textContent = currentIndex + 1;
+        totalNum.textContent = companyData.length;
+
+        // candidates
+        candidatesContainer.innerHTML = data.candidates.map((cand, ci) => `
+            <div class="candidate-card fade-in">
+                <div class="candidate-title">
+                    <div class="avatar">${cand.label.replace('Candidate ', 'C')}</div>
+                    <h3>${cand.label}</h3>
+                    <span class="round-tag">${cand.round || 'Round'}</span>
+                </div>
+                <ul class="question-list">
+                    ${cand.questions.map(q => `<li>${q}</li>`).join('')}
+                </ul>
+            </div>
+        `).join('');
+
+        // update buttons
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === companyData.length - 1;
+
+        // scroll to top
+        candidatesContainer.scrollTop = 0;
+
+        // highlight active pill
+        companyStrip.querySelectorAll('.company-pill').forEach((btn, idx) => {
+            btn.classList.toggle('active', idx === currentIndex);
+        });
+    }
+
+    function renderAll() {
+        renderCompanyList();
+        renderCandidates();
+    }
+
+    // ───────────── navigation events ─────────────
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderAll();
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < companyData.length - 1) {
+            currentIndex++;
+            renderAll();
+        }
+    });
+
+    // ───────────── keyboard support ─────────────
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (currentIndex < companyData.length - 1) {
+                currentIndex++;
+                renderAll();
+            }
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderAll();
+            }
+        }
+    });
+
+    // ───────────── initial render ─────────────
+    renderAll();
+</script>
+</body>
+</html>
